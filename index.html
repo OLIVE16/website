@@ -25,7 +25,7 @@ You should now be able to see the template if you navigate to:
 We've made this template as straightforward as we could to use.
 You can edit this using markdown which is the same language the lab reports are written in.
 It is very simple and there are plenty of guides online about how to use it.
-<br/><br/>We've written a small python script that takes your markdown files (named <code>README.md</code>) and turns the into HTML files for the web.
+<br/><br/>We've written a small python script that takes your markdown files (named <code>README.md</code>) and turns the into HTML files (named <code>index.html</code>) for the web.
 Each markdown file is contained in its own directory and after it is turned into HTML you will be able to view that page at:
 <br/><br/><pre><code>https://github.mit.edu/pages/rss2019-[TEAM_NUMBER]/website/my/directory
 </code></pre>
@@ -51,7 +51,8 @@ Each markdown file is contained in its own directory and after it is turned into
 </code></pre>
 <pre><code>git push origin master
 </code></pre>
-<br/><br/><strong>If you edit the <code>index.html</code> files they will be overwritten whenever you run <code>make.py</code></strong>. Edit the <code>README.md</code> files if you want to edit text. Edit the <code>make.py</code> file if you want to edit the generated HTML code.
+<br/><br/><strong>Note that any edits you make to <code>index.html</code> files will be overwritten whenever you run <code>make.py</code></strong>.
+Edit the <code>README.md</code> files if you want to edit text. Edit the <code>make.py</code> file if you want to edit the generated HTML code.
 <br/><br/>Edit the variable <code>TEAM_NUMBER</code> in the <code>make.py</code> file to edit the displayed team number in the header - this will also make it so the Github link points to the correct page. Also edit the <code>VIDEO_LINK</code> variable to change where the Video tab links to.
 <br/><br/>The template also supports $\LaTeX$ via mathjax! For inline math use single dollar signs  and for multiline math use use double dollar signs like this:
 $$
