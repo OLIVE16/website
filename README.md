@@ -48,7 +48,7 @@ You can edit this using markdown which is the same language the lab reports are 
 It is very simple and there are plenty of guides online about how to use it.
 
 
-We've written a small python script that takes your markdown files and turns the into HTML files for the web.
+We've written a small python script that takes your markdown files (named ```README.md```) and turns the into HTML files for the web.
 Each markdown file is contained in its own directory and after it is turned into HTML you will be able to view that page at:
 
 
@@ -77,6 +77,12 @@ Then, if for example you wanted to edit your lab 3 report you would do the follo
     git add website/labs/3/README.md website/labs/3/index.html
     git commit -m "Edited lab 3"
     git push origin master
+
+
+**If you edit the ```index.html``` files they will be overwritten whenever you run ```make.py```**. Edit the ```README.md``` files if you want to edit text. Edit the ```make.py``` file if you want to edit the generated HTML code.
+
+
+Edit the variable ```TEAM_NUMBER``` in the ```make.py``` file to edit the displayed team number in the header - this will also make it so the Github link points to the correct page. Also edit the ```VIDEO_LINK``` variable to change where the Video tab links to.
 
 
 The template also supports $\LaTeX$ via mathjax! For inline math use single dollar signs  and for multiline math use use double dollar signs like this:
