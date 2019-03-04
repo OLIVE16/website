@@ -289,3 +289,19 @@ table tr td
 { background: #eee;
   color: #555;
   border-top: 1px solid #FFF;}
+
+
+/*Make youtube relative*/
+.youtube-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding-bottom: 56.25%;
+}
+.youtube-container iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}

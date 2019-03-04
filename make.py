@@ -73,18 +73,10 @@ def parse_readme(directory):
     # Add the text from the README
     readme = os.path.join(directory, "README.md")
     with open(readme, 'r') as readme_f:
-        prev_markdown = "."
-        for line in readme_f:
-            markdown = str(mistune.markdown(line))
-            # Get rid of paragraph markers
-            markdown = markdown.replace('<p>','')
-            markdown = markdown.replace('</p>','')
-            f.write(markdown)
-            if prev_markdown == "" and markdown == "":
-                # Add a new line
-                f.write("<br/><br/>")
-            prev_markdown = markdown
-
+        renderer = mistune.Renderer(hard_wrap=False,escape=False)
+        markdown = mistune.Markdown(renderer=renderer)
+        data = readme_f.read()
+        f.write(markdown(data))
 
     # Write the footer
     f.write("</div></div></div>")
