@@ -11,7 +11,7 @@ When a seeing human walks the tunnels of Stata, they use their sense of sight to
 
 ### Wall Follower  
 #### *Olivia Siegel*  
-The wall follower works by taking a laser scan of 270 degrees around the robot. Wall coordinates are in polar coordinates, which we converted to cartesian and then inputted a subset of the coordinates into a linear regression to estimate where the wall is. Based on this estimate we could loosely follow the wall and correct for mistakes using a PD controller. The proportional term made the robot oscillate based on the error between the desired distance and the actual distance, and the derivative term damped to stop the oscillation.  
+The wall follower works by taking a laser scan of 270 degrees around the robot. Wall coordinates are in polar coordinates, which we converted to Cartesian coordinates relative to the coordinate frame of the car. We then chose a subset of these coordinates representing a forward-looking slice of 6-66 degrees, where 0 degrees is directly in front of the robot, to put into a linear regression to estimate where the wall is. Based on this estimate we could maintain the distance between our car and the wall using a PD controller. The proportional term of the controller made the robot oscillate to correct its position based on the error between the desired distance from the wall and the actual distance, and the derivative term served to damp these oscillations and make the wall following more smooth.  
 
 **Figure 1 - Visualization of Wall Detection in Simulation**  
 <iframe src="https://drive.google.com/file/d/1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D/preview" width="640" height="480"></iframe>
@@ -27,7 +27,7 @@ When an obstacle passes the warn distance, the distances to the object are recor
 
 In addition, the readings from the lidar have to be limited to only include the front of the vehicle. The polar coordinates returned by the lidar were converted to cartesian coordinates using simple trigonometry, and the detection region was limited to the width of the vehicle. A diagram of this scheme is shown in the following figure:
 
-**Figure 2 - Safety Controller Scan Region** 
+**Figure 2 - Safety Controller Scan Region**
 
 <img src="media/safety.PNG" width="600"></img>
 
@@ -40,7 +40,7 @@ In addition, the readings from the lidar have to be limited to only include the 
 
 
 ##### *Simulator Stage*
-The first step in creating our wall follower robot was to test our code in a simulation. We used the "wall_follower.py" python script from Lab 2 as the foundation for our wall follower code on our physical robot. The simulator code took in LaserScan data then sliced the data into a smaller section of about 60 degrees to represent the wall we wanted to follow. We then converted these points into Cartesian coordinates and filtered them through a simple linear regression model to obtain a line estimate of the wall. The linear regression model is an important step in our code as it allows us to smooth out the point cloud data we receive from the Lidar sensor and perform more robust distance and angle calculations with respect to our robot. To better visualize our estimate of the wall, we also created a marker object of our linear regression model for use in rviz. 
+The first step in creating our wall follower robot was to test our code in a simulation. We used the "wall_follower.py" python script from Lab 2 as the foundation for our wall follower code on our physical robot. The simulator code took in LaserScan data then sliced the data into a smaller section of about 60 degrees to represent the wall we wanted to follow. We then converted these points into Cartesian coordinates and filtered them through a simple linear regression model to obtain a line estimate of the wall. The linear regression model is an important step in our code as it allows us to smooth out the point cloud data we receive from the Lidar sensor and perform more robust distance and angle calculations with respect to our robot. To better visualize our estimate of the wall, we also created a marker object of our linear regression model for use in rviz.
 
 Once we got an accurate model of our wall, we used the distance between our robot and the wall to create a feedback controller. For the purposes of the simulation, we found that a PD controller worked well to stabilize our robot's trajectory. The output of our PD controller was used to adjust the robot's steering angle until the error between the desired distance and the robot's actual distance was minimized. The final step for successfully running our controller in the simulator was to tweak the controller gains (in our case Kp and Kd) to achieve the fastest convergence with the least oscillations.
 
@@ -57,10 +57,10 @@ For our first attempt to get the wall follower code working on our physical robo
 One of the biggest differences between the simulated and real robot was the level of oscillations. In the simulator, the gains were empirically chosen to reduce oscillations and converge quickly. However, some of the parameters used in the simulation do not accurately reflect real-life parameters. For example, the simulator assumed there was no friction and that the robot could reach infinite acceleration. These are obviously conditions our real robot did not meet. Therefore, our real robot was unstable with the current controller and experienced large oscillations, as seen in Figure 2a. We reevaluated our gains to better reflect these physical parameters. Additionally, since our physical robot will be expected to move at different velocities, we also made our gains a function of velocity in an attempt to maintain stability at different speeds.
 
 ###### Losing Track of the Wall
-While driving, if our robot encountered a convex corner, depending on sharpness of the angle, our robot would lose sight of the wall and continue driving forward (Figure 2b). This problem occurred due to our scan section being too small. We quickly fixed this error by increasing our scan range from a section of 60 degrees to a section of 90 degrees. This allowed us to visualize more of the wall to the side and rear of the robot. 
+While driving, if our robot encountered a convex corner, depending on sharpness of the angle, our robot would lose sight of the wall and continue driving forward (Figure 2b). This problem occurred due to our scan section being too small. We quickly fixed this error by increasing our scan range from a section of 60 degrees to a section of 90 degrees. This allowed us to visualize more of the wall to the side and rear of the robot.
 
 ###### Late Turns at Corners
-Our robot also encountered a problem at concave corners where the turning process would initiate too late and cause a collision with the wall (Figure 2c). Most likely, this problem also stemmed from our scan section being too small, but in order to create more robust turning commands, we decided to implement a filter on the scan data. We added two separate filters (one for the side scan and one for the front scan) that discarded scan data that fell outside the threshold, thus eliminating potential noise. Additionally, we set the front scan threshold to be a function of velocity to provide ample turning time regardless of the robot's speed. 
+Our robot also encountered a problem at concave corners where the turning process would initiate too late and cause a collision with the wall (Figure 2c). Most likely, this problem also stemmed from our scan section being too small, but in order to create more robust turning commands, we decided to implement a filter on the scan data. We added two separate filters (one for the side scan and one for the front scan) that discarded scan data that fell outside the threshold, thus eliminating potential noise. Additionally, we set the front scan threshold to be a function of velocity to provide ample turning time regardless of the robot's speed.
 
 ##### *Final Wall Follower*
 After implementing these changes, we were able to make our robot follow walls at a smooth trajectory while responding to any type of wall geometry. Additionally, we logged the difference error between our desired distance and our actual error during a single test run and found the average error to be aroun 0.12 cm. A video of our robot using the final wall follower code can be found here:
@@ -92,7 +92,7 @@ The originally recommended ROS information pipeline is as follows:
 
 <img src="media/feedforward.png" width="600"></img>
 
-*Figure 6 shows the original paradigm of the safety controller subscribing to the published velocity commands.* 
+*Figure 6 shows the original paradigm of the safety controller subscribing to the published velocity commands.*
 
 We saw a potential bug in the system: in a situation where the commanded velocity has a step decrease and an obstacle appears right at that moment, the safety controller would have calculated the stop distance based on the lower velocity, despite the vehicle still traveling at or close to the higher initial velocity. To remediate this, we decided to break the rules a little bit with our second iteration of the controller.  
 
