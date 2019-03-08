@@ -22,9 +22,13 @@ The purpose of the safety controller is to stop the vehicle from colliding with 
 
 When an obstacle passes the warn distance, the distances to the object are recorded by the controller, until it reaches the stop distance where the vehicle would then slam on the brakes. The purpose of the warn distance is to eliminate noise in the obstacle detection scheme - there must be at least 10 readings between the warn and stop distances before the obstacle reading is considered to be valid. The distances are varied with the vehicle's velocity, calibrated to ensure that the stop distance is just over the braking distance of the vehicle at that speed. The warn distance was arbitrarily chosen to be 20% further than the stop distance.  
 
-In addition, the readings from the lidar have to be limited to only include the front of the vehicle. The polar coordinates returned by the lidar were converted to cartesian coordinates using simple trigonometry, and the detection region was limited to the width of the vehicle. A diagram of this scheme is shown below:
+In addition, the readings from the lidar have to be limited to only include the front of the vehicle. The polar coordinates returned by the lidar were converted to cartesian coordinates using simple trigonometry, and the detection region was limited to the width of the vehicle. A diagram of this scheme is shown in the following figure:
+
+**Figure 2 - Safety Controller Scan Region** 
 
 <img src="media/safety.PNG" width="600"></img>
+
+*This diagram shows the points that are accepted by the controller (the scan area), as well as the warn and stop distances.*
 
 ## **Experimental Evaluation**  
 
@@ -38,13 +42,13 @@ The first step in creating our wall follower robot was to test our code in a sim
 Once we got an accurate model of our wall, we used the distance between our robot and the wall to create a feedback controller. For the purposes of the simulation, we found that a PD controller worked well to stabilize our robot's trajectory. The output of our PD controller was used to adjust the robot's steering angle until the error between the desired distance and the robot's actual distance was minimized. The final step for successfully running our controller in the simulator was to tweak the controller gains (in our case Kp and Kd) to achieve the fastest convergence with the least oscillations.
 
 ##### *Physical Stage*
-For our first attempt to get the wall follower code working on our physical robot, we tried to simply use our simulator code without any changes to parameters or functions. Although our code ran properly in the simulation, we quickly found that physical parameters and constraints prevented our code from running correctly on our real robot. In particular, we encountered three main problems: (1) steady oscillations, (2) losing track of the wall, and (3) late turns at corners. Figure 2 illustrates these problems.
+For our first attempt to get the wall follower code working on our physical robot, we tried to simply use our simulator code without any changes to parameters or functions. Although our code ran properly in the simulation, we quickly found that physical parameters and constraints prevented our code from running correctly on our real robot. In particular, we encountered three main problems: (1) steady oscillations, (2) losing track of the wall, and (3) late turns at corners. Figure 3 illustrates these problems.
 
-**Figure 2 - Problems During Physical Stage**
+**Figure 3 - Problems During Physical Stage**
 
 ![Robot Problem Diagram](media/robot_pic.PNG "Problems During Physical Stage")
 
-*Figure 2 shows the three problems we encountered when we moved our simulator code to the physical robot. Picture (a) represents the oscillations caused by an unstable controller, (b) represents the robot losing sight of the wall at a convex corner, and (c) represents a collision occuring at a concave corner due to late turning.*
+*Figure 3 shows the three problems we encountered when we moved our simulator code to the physical robot. Picture (a) represents the oscillations caused by an unstable controller, (b) represents the robot losing sight of the wall at a convex corner, and (c) represents a collision occuring at a concave corner due to late turning.*
 
 ###### Steady Oscillations
 One of the biggest differences between the simulated and real robot was the level of oscillations. In the simulator, the gains were empirically chosen to reduce oscillations and converge quickly. However, some of the parameters used in the simulation do not accurately reflect real-life parameters. For example, the simulator assumed there was no friction and that the robot could reach infinite acceleration. These are obviously conditions our real robot did not meet. Therefore, our real robot was unstable with the current controller and experienced large oscillations, as seen in Figure 2a. We reevaluated our gains to better reflect these physical parameters. Additionally, since our physical robot will be expected to move at different velocities, we also made our gains a function of velocity in an attempt to maintain stability at different speeds.
@@ -67,20 +71,29 @@ After implementing these changes, we were able to make our robot follow walls at
 The first step in designing our safety controller was to experimentally determine the stopping distance of the vehicle in the Stata basement. We applied a strip of tape to one of the wheels and took a slow-motion video (at 125 frames per second) of the vehicle accelerating as fast as possible. Braking at the exact moment the vehicle passes the camera is a rather difficult task, so we instead launched from a standstill and intuitively knew it would yield the same results.  
 
 We knew the wheelbase of the vehicle to be 25cm, so we were able to determine the scale of the video frame with respect to the real world. Analyzing the video frame-by-frame, we looked at the slip of the taped wheel: the displacement of the vehicle and instantaneous velocity at the point where the wheel makes a single turn told us the maximum acceleration possible by the car. Specifically, the wheel's circumference was 6.28cm in the video frame, but the car only moved forward 2cm when the wheel turned once (slipping over the remaining 4.28cm). Calculating the instantaneous velocity by looking at the displacement between individual frames yielded the maximum possible acceleration of the vehicle. Here's a video of the test:
+
 <iframe src="https://drive.google.com/file/d/1lJoVOZLuWHFNvkTCP7GHPBM3HkoZGqlT/preview" width="640" height="480"></iframe>
 
 ##### *First iteration:*  
 We developed the first version of the controller as per the proposed approach section. Barrier distances were calculated as a function of velocity and the experimentally-determined acceleration/deceleration limit. The vehicle's velocity was taken from the high_level_mux topic, the lidar data was taken from the scan topic, and the safety commands were published to its own safety topic that the low_level_mux gives precedence to. Upon testing this control scheme, we realized there were a couple of potential issues. We observed that the vehicle would sometimes stop rather far from the obstacle. It turns out that the velocity readings from the high_level_mux were the commanded velocities by the autonomous controller, not the actual velocity of the vehicle. In the instances where the car stopped far from the obstacle, it was traveling much slower than the commanded velocity, but considered the stopping distance of said velocity.  
 The originally recommended ROS information pipeline is as follows:
 
+**Figure 4 - Safety Controller Version 1 ROS Topics**
+
 <img src="media/feedforward.png" width="600"></img>
+
+*Figure 4 shows the original paradigm of the safety controller subscribing to the published velocity commands.* 
 
 We saw a potential bug in the system: in a situation where the commanded velocity has a step decrease and an obstacle appears right at that moment, the safety controller would have calculated the stop distance based on the lower velocity, despite the vehicle still traveling at or close to the higher initial velocity. To remediate this, we decided to break the rules a little bit with our second iteration of the controller.  
 
 ##### *Second iteration:*  
 We figured it would make more sense to read the actual velocity of the vehicle rather than an arbitrary command. Thus, we subscribed directly to the vesc motor output topic. Since the safety controller published to the low_level_mux, and the low_level_mux publishes to the vesc, we effectively created a feedback loop with the safety controller. The new ROS information pipeline was updated as follows:
 
+**Figure 5 - Safety Controller Version 2 ROS Topics**
+
 <img src="media/feedback.png" width="600"></img>
+
+*Figure 5 shows the revised ROS subscription topics in the second iteration of the safety controller.*
 
 In this scheme, the friction coefficient that we had manually set in the code became our proportional term in what would eventually be a PD controller. The obstacle would breach the stop distance, the vehicle would slow down, which would reduce the stop distance, which in turn, slows the vehicle down further. It was slightly jittery at first, because the safety controller would publish a "zero speed" message to the motor. To remediate this, we designed a derivative controller that was technically unconventional. We did not use a change-in-error-over-timestep method. Instead, we used the natural dynamics of the system to smooth out the deceleration. Instead of publishing a "zero speed" message, we simply published the current speed, divided by a constant. This constant was effectively our D term, and it smoothed out the commanded velocity by making it proportional to the current velocity.  
 
