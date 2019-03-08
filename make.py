@@ -20,7 +20,7 @@ def parse_readme(directory):
     # Write a header
     f.write("<!DOCTYPE HTML><html><head>")
     # Title
-    f.write("<title>RSS Team " + TEAM_NUMBER + "</title>")
+    f.write("<title>RSS Team " + TEAM_NUMBER + ": Racecat! </title>")
     # Stylesheet
     f.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"")
     f.write(os.path.join(path_to_root, "css/style.css"))
