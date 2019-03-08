@@ -2,33 +2,33 @@
 
 You can find slides to this report [here](https://docs.google.com/presentation/d/1XzfDtFtvkoT-H0BVW3P9kHhvvWo48XWTCSjpks8Dee4/edit?usp=sharing).  
 
-### **Overview and Motivations**  
+## **Overview and Motivations**  
 #### *Olivia Siegel*  
 
 
-### **Proposed Approach**  
+## **Proposed Approach**  
 
-#### Wall Follower  
+### Wall Follower  
 #### *Olivia Siegel*  
 
-#### Safety Controller  
+### Safety Controller  
 #### *Mohammed Nasir*  
 
 
-### **Experimental Evaluation**  
+## **Experimental Evaluation**  
 
-#### Wall Follower  
+### Wall Follower  
 #### *Jordan Gamble*  
 
-#### Safety Controller  
+### Safety Controller  
 #### *Mohammed Nasir*  
 
-### **Lessons Learned**  
+## **Lessons Learned**  
 #### *Tanya Smith*  
 
 
-### **Future Work**  
+## **Future Work**  
 #### *Tanya Smith*  
 
 
-###### *This report was edited by Olivia Siegel.*  
+#### *This report was edited by Olivia Siegel.*  
