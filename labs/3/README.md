@@ -39,6 +39,7 @@ For our first attempt to get the wall follower code working on our physical robo
 **Figure 2 - Problems During Physical Stage**
 
 ![Robot Problem Diagram](media/robot_pic.PNG "Problems During Physical Stage")
+
 *Figure 2 shows the three problems we encountered when we moved our simulator code to the physical robot. Picture (a) represents the oscillations caused by an unstable controller, (b) represents the robot losing sight of the wall at a convex corner, and (c) represents a collision occuring at a concave corner due to late turning.*
 
 ###### Steady Oscillations
