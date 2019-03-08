@@ -23,7 +23,7 @@ When an obstacle passes the warn distance, the distances to the object are recor
 
 In addition, the readings from the lidar have to be limited to only include the front of the vehicle. The polar coordinates returned by the lidar were converted to cartesian coordinates using simple trigonometry, and the detection region was limited to the width of the vehicle. A diagram of this scheme is shown below:
 
-![Safety Region Diagram](media/safety.PNG "Safety region scan region")
+<img src="media/safety.PNG" width="600">
 
 ## **Experimental Evaluation**  
 
@@ -55,7 +55,8 @@ While driving, if our robot encountered a convex corner, depending on sharpness 
 Our robot also encountered a problem at concave corners where the turning process would initiate too late and cause a collision with the wall (Figure 2c). Most likely, this problem also stemmed from our scan section being too small, but in order to create more robust turning commands, we decided to implement a filter on the scan data. We added two separate filters (one for the side scan and one for the front scan) that discarded scan data that fell outside the threshold, thus eliminating potential noise. Additionally, we set the front scan threshold to be a function of velocity to provide ample turning time regardless of the robot's speed. 
 
 ##### *Final Wall Follower*
-After implementing these changes, we were able to make our robot follow walls at a smooth trajectory while responding to any type of wall geometry. Additionally, we logged the difference error between our desired distance and our actual error during a single test run and found the average error to be aroun 0.12 cm. A video of our robot using the final wall follower code can be found [here](https://drive.google.com/open?id=1DKPFkl4E-hGZgjehEEgpVLc1ByIwhYFJ).
+After implementing these changes, we were able to make our robot follow walls at a smooth trajectory while responding to any type of wall geometry. Additionally, we logged the difference error between our desired distance and our actual error during a single test run and found the average error to be aroun 0.12 cm. A video of our robot using the final wall follower code can be found here:
+<iframe src="https://drive.google.com/file/d/1DKPFkl4E-hGZgjehEEgpVLc1ByIwhYFJ/preview" width="640" height="480"></iframe>
 
 ### Safety Controller  
 #### *Mohammed Nasir*  
@@ -68,12 +69,16 @@ We knew the wheelbase of the vehicle to be 25cm, so we were able to determine th
 ##### *First iteration:*  
 We developed the first version of the controller as per the proposed approach section. Barrier distances were calculated as a function of velocity and the experimentally-determined acceleration/deceleration limit. The vehicle's velocity was taken from the high_level_mux topic, the lidar data was taken from the scan topic, and the safety commands were published to its own safety topic that the low_level_mux gives precedence to. Upon testing this control scheme, we realized there were a couple of potential issues. We observed that the vehicle would sometimes stop rather far from the obstacle. It turns out that the velocity readings from the high_level_mux were the commanded velocities by the autonomous controller, not the actual velocity of the vehicle. In the instances where the car stopped far from the obstacle, it was traveling much slower than the commanded velocity, but considered the stopping distance of said velocity.  
 The originally recommended ROS information pipeline is as follows:
-![Safety Controller Version 1](media/feedforward.png "Safety Controller Version 1")
+
+<img src="media/feedforward.png" width="600">
+
 We saw a potential bug in the system: in a situation where the commanded velocity has a step decrease and an obstacle appears right at that moment, the safety controller would have calculated the stop distance based on the lower velocity, despite the vehicle still traveling at or close to the higher initial velocity. To remediate this, we decided to break the rules a little bit with our second iteration of the controller.  
 
 ##### *Second iteration:*  
 We figured it would make more sense to read the actual velocity of the vehicle rather than an arbitrary command. Thus, we subscribed directly to the vesc motor output topic. Since the safety controller published to the low_level_mux, and the low_level_mux publishes to the vesc, we effectively created a feedback loop with the safety controller. The new ROS information pipeline was updated as follows:
-![Safety Controller Version 2](media/feedback.png "Safety Controller Version 2")
+
+<img src="media/feedback.png" width="600">
+
 In this scheme, the friction coefficient that we had manually set in the code became our proportional term in what would eventually be a PD controller. The obstacle would breach the stop distance, the vehicle would slow down, which would reduce the stop distance, which in turn, slows the vehicle down further. It was slightly jittery at first, because the safety controller would publish a "zero speed" message to the motor. To remediate this, we designed a derivative controller that was technically unconventional. We did not use a change-in-error-over-timestep method. Instead, we used the natural dynamics of the system to smooth out the deceleration. Instead of publishing a "zero speed" message, we simply published the current speed, divided by a constant. This constant was effectively our D term, and it smoothed out the commanded velocity by making it proportional to the current velocity.  
 
 ## **Lessons Learned**  
