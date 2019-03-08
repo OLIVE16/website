@@ -51,4 +51,6 @@ When it came to the teamwork and communication aspects of the lab, we ran into a
 ## **Future Work**  
 #### *Tanya Smith*  
 
+If we were to develop this work further in the future, we would make improvements to the tuning of our wall follower and safety controller such that they would be able to adapt to a wider variety of situations or unexpected conditions. We would improve our wall following precision when turning corners and following more complex-shaped walls at higher speeds. One strategy we could try for this would be to change the PD controller gains and lookahead distance to be more responsive to changes in the velocity of the car. Another would be add an integral term to make our PD controller into a PID controller, or even change our controller entirely to implement pure pursuit instead. As for our safety controller, we would improve its robustness by making its lookahead range dependent on steering angle as well, instead of just velocity. This would improve obstacle detection and collision avoidance in situations where the car is going to encounter a safety emergency immediately after turning a corner.  
+
 #### *This report was edited by Olivia Siegel.*  
