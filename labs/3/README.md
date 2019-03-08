@@ -11,8 +11,8 @@ When a seeing human walks the tunnels of Stata, they use their sense of sight to
 
 ### Wall Follower  
 #### *Olivia Siegel*  
-The wall follower works by taking a laser scan of 270 degrees around the robot. Wall coordinates are in polar coordinates, which we converted to Cartesian coordinates relative to the coordinate frame of the car. We then chose a subset of these coordinates representing a forward-looking slice of 6-66 degrees, where 0 degrees is directly in front of the robot, to put into a linear regression to estimate where the wall is. Based on this estimate we could maintain the distance between our car and the wall using a PD controller. The proportional term of the controller made the robot oscillate to correct its position based on the error between the desired distance from the wall and the actual distance, and the derivative term served to damp these oscillations and make the wall following more smooth.  
-
+The wall follower works by taking a laser scan of 270 degrees around the robot. Wall coordinates are in polar coordinates, which we converted to Cartesian coordinates relative to the coordinate frame of the car. We then chose a subset of these coordinates representing a forward-looking slice of 6-66 degrees, where 0 degrees is directly in front of the robot, to put into a linear regression to estimate where the wall is. Based on this estimate we could maintain the distance between our car and the wall using a PD controller. The proportional term of the controller made the robot oscillate to correct its position based on the error between the desired distance from the wall and the actual distance, and the derivative term served to damp these oscillations and make the wall following more smooth. The simulation for this process is shown in Figure 1 below.  
+  
 **Figure 1 - Visualization of Wall Detection in Simulation**  
 <iframe src="https://drive.google.com/file/d/1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D/preview" width="640" height="480"></iframe>
 
