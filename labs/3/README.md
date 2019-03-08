@@ -12,6 +12,7 @@ You can find slides to this report [here](https://docs.google.com/presentation/d
 
 **Figure 1 - Visualization of Wall Detection in Simulation**  
 <iframe src="https://drive.google.com/open?id=1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D" width="640" height="480"></iframe>
+The video can be found [here](https://drive.google.com/open?id=1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D).  
 *This is a screen capture of the visualization tool rviz, showing the wall follower running in simulation while detecting nearby segments of the wall (see yellow line).*  
 
 ### Safety Controller  
@@ -27,33 +28,6 @@ In addition, the readings from the lidar have to be limited to only include the 
 
 ### Wall Follower  
 #### *Jordan Gamble*  
-
-##### *Simulator Stage*
-The first step in creating our wall follower robot was to test our code in a simulation. We used the "wall_follower.py" python script from Lab 2 as the foundation for our wall follower code on our physical robot. The simulator code took in LaserScan data then sliced the data into a smaller section of about 60 degrees to represent the wall we wanted to follow. We then converted these points into Cartesian coordinates and filtered them through a simple linear regression model to obtain a line estimate of the wall. The linear regression model is an important step in our code as it allows us to smooth out the point cloud data we receive from the Lidar sensor and perform more robust distance and angle calculations with respect to our robot. To better visualize our estimate of the wall, we also created a marker object of our linear regression model for use in rviz. 
-
-Once we got an accurate model of our wall, we used the distance between our robot and the wall to create a feedback controller. For the purposes of the simulation, we found that a PD controller worked well to stabilize our robot's trajectory. The output of our PD controller was used to adjust the robot's steering angle until the error between the desired distance and the robot's actual distance was minimized. The final step for successfully running our controller in the simulator was to tweak the controller gains (in our case Kp and Kd) to achieve the fastest convergence with the least oscillations.
-
-##### *Physical Stage*
-For our first attempt to get the wall follower code working on our physical robot, we tried to simply use our simulator code without any changes to parameters or functions. Although our code ran properly in the simulation, we quickly found that physical parameters and constraints prevented our code from running correctly on our real robot. In particular, we encountered three main problems: (1) steady oscillations, (2) losing track of the wall, and (3) late turns at corners. Figure 2 illustrates these problems.
-
-**Figure 2 - Problems During Physical Stage**
-
-![Robot Problem Diagram](media/robot_pic.PNG "Problems During Physical Stage")
-
-*Figure 2 shows the three problems we encountered when we moved our simulator code to the physical robot. Picture (a) represents the oscillations caused by an unstable controller, (b) represents the robot losing sight of the wall at a convex corner, and (c) represents a collision occuring at a concave corner due to late turning.*
-
-###### Steady Oscillations
-One of the biggest differences between the simulated and real robot was the level of oscillations. In the simulator, the gains were empirically chosen to reduce oscillations and converge quickly. However, some of the parameters used in the simulation do not accurately reflect real-life parameters. For example, the simulator assumed there was no friction and that the robot could reach infinite acceleration. These are obviously conditions our real robot did not meet. Therefore, our real robot was unstable with the current controller and experienced large oscillations, as seen in Figure 2a. We reevaluated our gains to better reflect these physical parameters. Additionally, since our physical robot will be expected to move at different velocities, we also made our gains a function of velocity in an attempt to maintain stability at different speeds.
-
-###### Losing Track of the Wall
-While driving, if our robot encountered a convex corner, depending on sharpness of the angle, our robot would lose sight of the wall and continue driving forward (Figure 2b). This problem occurred due to our scan section being too small. We quickly fixed this error by increasing our scan range from a section of 60 degrees to a section of 90 degrees. This allowed us to visualize more of the wall to the side and rear of the robot. 
-
-###### Late Turns at Corners
-Our robot also encountered a problem at concave corners where the turning process would initiate too late and cause a collision with the wall (Figure 2c). Most likely, this problem also stemmed from our scan section being too small, but in order to create more robust turning commands, we decided to implement a filter on the scan data. We added two separate filters (one for the side scan and one for the front scan) that discarded scan data that fell outside the threshold, thus eliminating potential noise. Additionally, we set the front scan threshold to be a function of velocity to provide ample turning time regardless of the robot's speed. 
-
-##### *Final Wall Follower*
-After implementing these changes, we were able to make our robot follow walls at a smooth trajectory while responding to any type of wall geometry. A video of our robot using the final wall follower code can be found [here](https://drive.google.com/open?id=1DKPFkl4E-hGZgjehEEgpVLc1ByIwhYFJ).
-
 
 ### Safety Controller  
 #### *Mohammed Nasir*  
