@@ -1,35 +1,47 @@
 # Lab 3
-
+<br>
 You can find slides to this report [here](https://docs.google.com/presentation/d/1XzfDtFtvkoT-H0BVW3P9kHhvvWo48XWTCSjpks8Dee4/edit?usp=sharing).
+<br>
+# **Overview and Motivations**
+*Olivia Siegel*
 
-##OVERVIEW AND MOTIVATIONS
-###Olivia Siegel
+<br>
+<br>
+# **Proposed Approach**
 
+<br>
+<br>
+# Wall Follower
+*Olivia Siegel*
 
-##PROPOSED APPROACH
+<br>
+<br>
+# Safety Controller
+*Mohammed Nasir*
 
-##Wall Follower
-###Olivia Siegel
+<br>
+<br>
+# **Experimental Evaluation**
 
-##Safety Controller
-###Mohammed Nasir
+<br>
+# Wall Follower
+*Jordan Gamble*
 
+<br>
+# Safety Controller
+*Mohammed Nasir*
 
-##EXPERIMENTAL EVALUATION
+<br>
+<br>
+# **Lessons Learned**
+*Tanya Smith*
 
-##Wall Follower
-###Jordan Gamble
+<br>
+<br>
+# **Future Work**
+*Tanya Smith*
 
-##Safety Controller
-###Mohammed Nasir
-
-
-##LESSONS LEARNED
-###Tanya Smith
-
-
-##FUTURE WORK
-###Tanya Smith
-
-
+<br>
+<br>
 *This report was edited by Olivia Siegel.*
+<br>
