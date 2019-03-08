@@ -5,10 +5,13 @@ You can find slides to this report [here](https://docs.google.com/presentation/d
 ## **Overview and Motivations**  
 #### *Olivia Siegel*  
 
+When a seeing human walks the tunnels of Stata, they use their sense of sight to not bump into the walls. A visually impaired person might use their sense of touch, hearing, or even smell. The importance of being able to get our robot to recognize and follow a wall goes beyond the confines of this lab. This lab is important because it is the first step in making autonomous systems that can navigate like a human does. Being able to scan for objects and move accordingly is crucial for the field of robotics because there is no human brain to tell the system where to go.  
+
 ## **Proposed Approach**  
 
 ### Wall Follower  
 #### *Olivia Siegel*  
+The wall follower works by taking a laser scan of 270 degrees around the robot. Wall coordinates are in polar coordinates, which we converted to cartesian and then inputted a subset of the coordinates into a linear regression to estimate where the wall is. Based on this estimate we could loosely follow the wall and correct for mistakes using a PD controller. The proportional term made the robot oscillate based on the error between the desired distance and the actual distance, and the derivative term damped to stop the oscillation.  
 
 **Figure 1 - Visualization of Wall Detection in Simulation**  
 <iframe src="https://drive.google.com/open?id=1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D" width="640" height="480"></iframe>
