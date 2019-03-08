@@ -11,7 +11,7 @@ You can find slides to this report [here](https://docs.google.com/presentation/d
 #### *Olivia Siegel*  
 
 **Figure 1 - Visualization of Wall Detection in Simulation**  
-<div class="youtube-container"><iframe allowFullScreen="allowFullScreen" frameBorder="0" src="https://drive.google.com/open?id=1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D"></iframe></div>  
+The video can be found [here](https://drive.google.com/open?id=1EBAm5Ia0z1iogYCx_xZG5mqCO49Pzp0D).
 *This is a screen capture of the visualization tool rviz, showing the wall follower running in simulation while detecting nearby segments of the wall (see yellow line).*  
 
 ### Safety Controller  
