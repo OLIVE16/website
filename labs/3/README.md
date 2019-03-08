@@ -23,7 +23,7 @@ When an obstacle passes the warn distance, the distances to the object are recor
 
 In addition, the readings from the lidar have to be limited to only include the front of the vehicle. The polar coordinates returned by the lidar were converted to cartesian coordinates using simple trigonometry, and the detection region was limited to the width of the vehicle. A diagram of this scheme is shown below:
 
-![Safety Region Diagram](media/safety.PNG =400x "Safety region scan region")
+![Safety Region Diagram](media/safety.PNG "Safety region scan region")
 
 ## **Experimental Evaluation**  
 
@@ -73,7 +73,7 @@ We saw a potential bug in the system: in a situation where the commanded velocit
 
 ##### *Second iteration:*  
 We figured it would make more sense to read the actual velocity of the vehicle rather than an arbitrary command. Thus, we subscribed directly to the vesc motor output topic. Since the safety controller published to the low_level_mux, and the low_level_mux publishes to the vesc, we effectively created a feedback loop with the safety controller. The new ROS information pipeline was updated as follows:
-![Safety Controller Version 2](media/feedback.png =400x "Safety Controller Version 2")
+![Safety Controller Version 2](media/feedback.png "Safety Controller Version 2")
 In this scheme, the friction coefficient that we had manually set in the code became our proportional term in what would eventually be a PD controller. The obstacle would breach the stop distance, the vehicle would slow down, which would reduce the stop distance, which in turn, slows the vehicle down further. It was slightly jittery at first, because the safety controller would publish a "zero speed" message to the motor. To remediate this, we designed a derivative controller that was technically unconventional. We did not use a change-in-error-over-timestep method. Instead, we used the natural dynamics of the system to smooth out the deceleration. Instead of publishing a "zero speed" message, we simply published the current speed, divided by a constant. This constant was effectively our D term, and it smoothed out the commanded velocity by making it proportional to the current velocity.  
 
 ## **Lessons Learned**  
