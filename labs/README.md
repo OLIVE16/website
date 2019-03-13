@@ -3,7 +3,7 @@
 [Lab 3           : Wall Following](3)
 
 
-[Lab 4           : Visual Servoring](4)
+[Lab 4           : Visual Servoing](4)
 
 
 [Lab 5           : Localization](5)
