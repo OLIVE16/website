@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -121,7 +121,7 @@
 	.main_nav,
 	.header_social
 	{
-		display: none;
+		
 	}
 	.search
 	{
