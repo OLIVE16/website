@@ -209,8 +209,8 @@ $(document).ready(function()
 
 	function initQuantity()
 	{
-		// Handle product quantity input
-		if($('.product_quantity').length)
+		// Handle team_member quantity input
+		if($('.team_member_quantity').length)
 		{
 			var input = $('#quantity_input');
 			var incButton = $('#quantity_inc_button');
@@ -246,13 +246,13 @@ $(document).ready(function()
 
 	function initIsotope()
 	{
-		var sortingButtons = $('.product_sorting_btn');
+		var sortingButtons = $('.team_member_sorting_btn');
 		var sortNums = $('.num_sorting_btn');
 
-		if($('.product_grid').length)
+		if($('.team_member_grid').length)
 		{
-			var grid = $('.product_grid').isotope({
-				itemSelector: '.product',
+			var grid = $('.team_member_grid').isotope({
+				itemSelector: '.team_member',
 				layoutMode: 'fitRows',
 				fitRows:
 				{
@@ -262,10 +262,10 @@ $(document).ready(function()
 	            {
 	            	price: function(itemElement)
 	            	{
-	            		var priceEle = $(itemElement).find('.product_price').text().replace( '$', '' );
+	            		var priceEle = $(itemElement).find('.team_member_price').text().replace( '$', '' );
 	            		return parseFloat(priceEle);
 	            	},
-	            	name: '.product_name',
+	            	name: '.team_member_name',
 	            	stars: function(itemElement)
 	            	{
 	            		var starsEle = $(itemElement).find('.rating');

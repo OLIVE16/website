@@ -140,7 +140,7 @@
 	{
 		font-size: 48px;
 	}
-	.product
+	.team_member
 	{
 		width: calc((100% - 30px) / 2);
 	}
@@ -301,23 +301,11 @@
 		width: 161px;
 		font-size: 13px;
 	}
-	.product
+	.team_member
 	{
 		width: 100%;
 	}
-	.newsletter_title
-	{
-		font-size: 24px;
-	}
-	.newsletter_button
-	{
-		width: 128px;
-		height: 41px;
-	}
-	.newsletter_button span
-	{
-		font-size: 13px;
-	}
+	
 	.copyright
 	{
 		font-size: 13px;
