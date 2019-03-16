@@ -58,14 +58,18 @@ ul {
 
 p {
     font-family: 'PT Sans', sans-serif;
-    font-size: 14px;
-    line-height: 2.14;
+    font-size: 16px;
+    line-height: 1.5;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    text-indent: 0.5in;
     font-weight: 400;
     color: #000000;
     -webkit-font-smoothing: antialiased;
     -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
     text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
+
 
     p a {
         display: inline;
@@ -119,15 +123,15 @@ h2 {
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 26px;
 }
 
 h4 {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 h5 {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 h1, h2, h3, h4, h5, h6 {
