@@ -349,6 +349,7 @@ section {
     padding-left: 35px;
     padding-top: 25px;
     padding-bottom: 25px;
+    white-space: nowrap;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 200ms ease;

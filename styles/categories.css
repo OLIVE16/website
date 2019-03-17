@@ -347,6 +347,7 @@ section {
     padding-top: 25px;
     padding-bottom: 25px;
     visibility: hidden;
+    white-space: nowrap;
     opacity: 0;
     -webkit-transition: all 200ms ease;
     -moz-transition: all 200ms ease;
