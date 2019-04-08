@@ -108,7 +108,7 @@ On top of measuring the accuracy of our localization model, we were also concern
 *The final plot generated from Figure 7. Upon initializing the particles, our standard deviation starts from 1 and converges around 0.2. Our final convergence rate is about 7 seconds.*
 
 ## **Experimental Evaluation Bonus: Cartographer**
-### *Mohammad Nasir
+### *Mohammad Nasir*
 
 The Google Cartographer is a software package used for Simultaneous Localization And Mapping (SLAM). It runs on the robot, using odometry data taken from the drive system as well as kinematic measurements from the IMU. It synthesizes this information with readings from the LIDAR to generate a map of the robot’s surroundings. As we implemented it on the robot, we found that there were a few parameters to set in the racecar_2d.lua file before it was minimally functional, as shown below:
 
@@ -127,7 +127,7 @@ We began at the far left side (in the image) and drove down the hall at a speed 
 
 We recorded a video of the robot driving while the cartographer generates the map of the hall, and this is shown below:
 
-<iframe src="https://drive.google.com/file/d/1Lq7entCfRCiRs9fgoMy8JKhtM0nyQYnf/preview" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/18lh49fHUdUaBO0pClvWbeRkTfDXUsEWQ/preview" width="640" height="480"></iframe>
 
 ***Figure 10: Video of Cartographer map generation***
 *This figure shows the robot driving through the hall as the Cartographer generates a map of the surroundings. (Video sped up 3x)*

@@ -114,7 +114,7 @@
 
             <div style="width: 85%; padding: 20px; margin: auto;">
                 <p>You can find slides to this report <a href="https://docs.google.com/presentation/d/1NuDpnbKnr5Q-sfzRN80VtYCx-H2BmiSQMGYetTSKh0Y/edit?usp=sharing">here</a>.</p>
-               
+                
                 <h2><strong>Overview and Motivations</strong></h2>
                 <h3><em>Mohammed Nasir</em></h3>
                 <p>As we worked through past labs, we learned how to use sensors to follow a wall, detect objects in the world, as well as command steering based on our collected sensor data. This lab involved bringing it all together to locate ourselves in the world. However, there is no easy way to find our absolute position. We must rely on our position relative to other objects, which we can then use to infer our position relative to the Earth.</p>
@@ -174,7 +174,7 @@
                 <p><strong><em>Figure 8 - Final Plot of Convergence Error in Simulation</em></strong>
                 <em>The final plot generated from Figure 7. Upon initializing the particles, our standard deviation starts from 1 and converges around 0.2. Our final convergence rate is about 7 seconds.</em></p>
                 <h2><strong>Experimental Evaluation Bonus: Cartographer</strong></h2>
-                <h3>*Mohammad Nasir</h3>
+                <h3><em>Mohammad Nasir</em></h3>
                 <p>The Google Cartographer is a software package used for Simultaneous Localization And Mapping (SLAM). It runs on the robot, using odometry data taken from the drive system as well as kinematic measurements from the IMU. It synthesizes this information with readings from the LIDAR to generate a map of the robot’s surroundings. As we implemented it on the robot, we found that there were a few parameters to set in the racecar_2d.lua file before it was minimally functional, as shown below:</p>
                 <p>use_landmarks = false,
                 publish_frame_projected_to_2d = true,
@@ -185,7 +185,7 @@
                 <em>This figure shows a map of the 6th floor of Simmons Hall that was generated without any modifications to the stock parameters.</em></p>
                 <p>We began at the far left side (in the image) and drove down the hall at a speed of ~0.75m/s to minimize slippage and to allow the cartographer sufficient time to process all the incoming data. The right side of the image seems to be a bit blurry, since we did multiple passes and they seem to have not aligned perfectly. A future improvement to this implementation would be to adjust the parameters to tune loop closure performance.</p>
                 <p>We recorded a video of the robot driving while the cartographer generates the map of the hall, and this is shown below:</p>
-                <iframe src="https://drive.google.com/file/d/1Lq7entCfRCiRs9fgoMy8JKhtM0nyQYnf/preview" width="640" height="480"></iframe><p><strong><em>Figure 10: Video of Cartographer map generation</em></strong>
+                <iframe src="https://drive.google.com/file/d/18lh49fHUdUaBO0pClvWbeRkTfDXUsEWQ/preview" width="640" height="480"></iframe><p><strong><em>Figure 10: Video of Cartographer map generation</em></strong>
                 <em>This figure shows the robot driving through the hall as the Cartographer generates a map of the surroundings. (Video sped up 3x)</em></p>
                 <h2><strong>Lessons Learned</strong></h2>
                 <h3><em>Olivia Siegel</em></h3>
