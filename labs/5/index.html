@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="home_content">
-                                    <div class="home_title">Lab 5: Coming Soon<span>!</span></div>
+                                    <div class="home_title">Lab 5: Localization<span>!</span></div>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                 <p>To understand the calculations necessary to make these updates, we will define the concept of the world frame and the body frame. The frame of reference means the axes with respect to which we are defining the positions and orientations of the particle. If the location of a particle is given in the world frame, it means the frame of reference of the global map. If it is given in the body frame, it means the frame of reference of the car, which changes depending on the movements of the car.</p>
                 <p>To update the position of each particle, we used the linear and angular velocities of the odometry data to calculate the changes in location and orientation. Because the odometry data we subscribed to was given in the body frame of the car, we then used a rotation matrix to transform these changes into the world frame. Finally, we added the changes to the old location and orientation to obtain the new ones. In simulation, we also added Gaussian noise to these changes, to account for the unavoidable noisiness of the real robot’s odometry data.</p>
                 <p>Due to this noise in the odometry data, whether real or simulated, using the motion model alone is not enough to perform accurate localization. The noise causes the locations of the particles to diverge over time until the particle cloud is far too large and inaccurate to be at all useful. This is demonstrated in Figure 1 below, in which the particle cloud diverges when the motion model is the only code affecting the locations of the particles. In order to combat this divergence, we used periodic sensor model updates based on exteroceptive measurements, which is explained in the next subsection.</p>
-                <iframe src="https://drive.google.com/file/d/17MmxgFGmrDhao2rxZ3w01SXUjSMscv8a/view?usp=sharing>" width="640" height="480"></iframe><p><strong><em>Figure 1 - Particle Cloud Divergence Based on Only Motion Model</em></strong>
+                <iframe src="https://drive.google.com/file/d/17MmxgFGmrDhao2rxZ3w01SXUjSMscv8a/preview>" width="640" height="480"></iframe><p><strong><em>Figure 1 - Particle Cloud Divergence Based on Only Motion Model</em></strong>
                 <em>This video shows the particle filter running with only the motion model turned on, which results in the particle cloud diverging quickly from the actual position of the robot.</em></p>
                 <p><strong><strong>Technical Approach: Sensor Model</strong></strong></p>
                 <p>Every 10 timesteps, the sensor model was applied in order to counter the divergence of the particle cloud. We chose this frequency of 10 timesteps because using the sensor model any more often made our code too slow and unresponsive, which manifested in lag in our simulation. The job of the sensor model was to assign probabilities, or weights, to each particle for how likely they were to accurately describe the location and orientation of the car, based on comparing measured lidar data to the hypothetical lidar data that the robot would see if it were at that particle.</p>
