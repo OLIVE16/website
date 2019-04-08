@@ -110,3 +110,5 @@ As it was everyone in the groups first time implementing a particle filter, we h
 ### *Olivia Siegel*
 
 As mentioned in the lessons learned, we could make things faster by using built in numpy functions and a circular mean. If we were to continue working on this lab, that is what we would do. However, we are looking forward to implementing the next lab, which is a path planning and trajectory tracking lab!
+
+#### *This report was edited by Jordan Gamble.*
