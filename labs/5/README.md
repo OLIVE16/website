@@ -1,6 +1,6 @@
 # Lab 5
 
-You can find slides to this report [here](https://docs.google.com/presentation/d/1NuDpnbKnr5Q-sfzRN80VtYCx-H2BmiSQMGYetTSKh0Y/edit?usp=sharing).
+Slides for this lab are also accessible [here](https://docs.google.com/presentation/d/1NuDpnbKnr5Q-sfzRN80VtYCx-H2BmiSQMGYetTSKh0Y/edit?usp=sharing).
 
 ## **Overview and Motivations**
 ### *Mohammed Nasir*
@@ -135,7 +135,7 @@ We recorded a video of the robot driving while the cartographer generates the ma
 ## **Lessons Learned**
 ### *Olivia Siegel*
 
-As it was everyone in the groups first time implementing a particle filter, we had many learning moments and several lessons learned. The first was that we didn’t use the circular mean instead of averaging theta values, like it said to do in the lab. Circular mean for angles is more accurate than just a regular mean because you convert from polar to cartesian, average, and then convert back to polar. Another lesson learned was we spent a good amount of time trying to make our algorithms faster and we probably would have had better luck if we used more built in numpy functions. 
+As it was everyone in the groups first time implementing a particle filter, we had many learning moments and several lessons learned. The first was that we didn’t use the circular mean instead of averaging angle values, like it said to do in the lab. Circular mean for angles is more accurate than just a regular mean because you convert from polar to cartesian, average, and then convert back to polar. Our angle error built up over time due to not using the suggested circular mean method which takes into account that for angles, 0 and 360 degrees are equivalent. Another lesson learned was we spent a good amount of time trying to make our algorithms faster and we probably would have had better luck if we used more built in numpy functions. All in all, a great learning experience. 
 
 ## **Future Work**
 ### *Olivia Siegel*

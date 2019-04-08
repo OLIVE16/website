@@ -113,7 +113,7 @@
             </div>
 
             <div style="width: 85%; padding: 20px; margin: auto;">
-                <p>You can find slides to this report <a href="https://docs.google.com/presentation/d/1NuDpnbKnr5Q-sfzRN80VtYCx-H2BmiSQMGYetTSKh0Y/edit?usp=sharing">here</a>.</p>
+                <p>Slides for this lab are also accessible <a href="https://docs.google.com/presentation/d/1NuDpnbKnr5Q-sfzRN80VtYCx-H2BmiSQMGYetTSKh0Y/edit?usp=sharing">here</a>.</p>
                 
                 <h2><strong>Overview and Motivations</strong></h2>
                 <h3><em>Mohammed Nasir</em></h3>
@@ -189,7 +189,7 @@
                 <em>This figure shows the robot driving through the hall as the Cartographer generates a map of the surroundings. (Video sped up 3x)</em></p>
                 <h2><strong>Lessons Learned</strong></h2>
                 <h3><em>Olivia Siegel</em></h3>
-                <p>As it was everyone in the groups first time implementing a particle filter, we had many learning moments and several lessons learned. The first was that we didn’t use the circular mean instead of averaging theta values, like it said to do in the lab. Circular mean for angles is more accurate than just a regular mean because you convert from polar to cartesian, average, and then convert back to polar. Another lesson learned was we spent a good amount of time trying to make our algorithms faster and we probably would have had better luck if we used more built in numpy functions.</p>
+                <p>As it was everyone in the groups first time implementing a particle filter, we had many learning moments and several lessons learned. The first was that we didn’t use the circular mean instead of averaging angle values, like it said to do in the lab. Circular mean for angles is more accurate than just a regular mean because you convert from polar to cartesian, average, and then convert back to polar. Our angle error built up over time due to not using the suggested circular mean method which takes into account that for angles, 0 and 360 degrees are equivalent. Another lesson learned was we spent a good amount of time trying to make our algorithms faster and we probably would have had better luck if we used more built in numpy functions. All in all, a great learning experience.</p>
                 <h2><strong>Future Work</strong></h2>
                 <h3><em>Olivia Siegel</em></h3>
                 <p>As mentioned in the lessons learned, we could make things faster by using built in numpy functions and a circular mean. If we were to continue working on this lab, that is what we would do. However, we are looking forward to implementing the next lab, which is a path planning and trajectory tracking lab!</p>
