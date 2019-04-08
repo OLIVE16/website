@@ -5,7 +5,7 @@ You can find slides to this report [here](https://docs.google.com/presentation/d
 ## **Overview and Motivations**
 ### *Mohammed Nasir*
 
-As we worked through past labs, we learned how to use sensors to follow a wall, detect objects in the world, as well as command steering based on our collected sensor data. This lab involved bringing it all together to locate ourselves in the world. However, there is no easy way to find our absolute position, we must rely on our position relative to other objects, which we can then use to infer our position relative to the Earth.
+As we worked through past labs, we learned how to use sensors to follow a wall, detect objects in the world, as well as command steering based on our collected sensor data. This lab involved bringing it all together to locate ourselves in the world. However, there is no easy way to find our absolute position. We must rely on our position relative to other objects, which we can then use to infer our position relative to the Earth.
 
 A real-world analogy of this is a person walking in a desert while blindfolded. They only know their initial position, but they are primarily relying on their steps to mentally infer their position at any later given time. In this lab, we did just that: we incorporated “steps” to give us a rough estimate of our position, given our initial position. However, this is not perfect, since the position estimate will drift over time. In the desert analogy, the miniscule slippage under the person’s foot at every step introduces a little bit of error between the estimated and actual positions, which accumulates over multiple steps. Therefore, we need to use sensors to correct our estimate from time to time.
 
@@ -18,17 +18,17 @@ As technology progresses towards a more automated future, it becomes increasingl
 
 In order to localize the robot on a known map of the MIT Stata building basement, we implemented the Monte Carlo Localization particle filter method. The word “particle” in this method refers to the fact that we maintained a cloud of particles representing possible locations and orientations for the car, and the word “filter” refers to the fact that certain particles were periodically filtered out based on having a low probability of accurately describing the car’s position. 
 
-As subcomponents of this method, we implemented a motion model and a sensor model, and used the particle filter to put the two together. On each timestep, the motion model updated the locations and orientations of each particle based on the odometry of the robot. The details of this odometry calculation are explained in the motion model subsection below. Periodically, the sensor model calculated the probability for each particle that it accurately represented the car’s current location; the particle filter would then resample a new particle cloud according to these probabilities. The details of how often the sensor model was called were chosen to optimize the speed and responsiveness of our code, and are explained in more detail in the sensor model subsection below.
+ We implemented a motion model and a sensor model as subcomponents of this method, and used the particle filter to put the two together. On each timestep, the motion model updated the locations and orientations of each particle based on the odometry of the robot. The details of this odometry calculation are explained in the motion model subsection below. Periodically, the sensor model calculated the probability that each particle accurately represents the car’s current location; the particle filter would then resample a new particle cloud according to these probabilities. The parameters of the sensor model were chosen to optimize the speed and responsiveness of our code. The details of how the sensor model works are explained in more further in the sensor model subsection below.
 
 __**Technical Approach: Motion Model**__
 
-At every timestep, the motion model updated the locations and orientations of each particle based on the proprioceptive odometry data of the robot; this essentially means using the robot’s linear and angular velocities to calculate new positions based on the physical laws of motion. 
+At every timestep, the motion model updated the locations and orientations of each particle based on the proprioceptive odometry data of the robot. This essentially means using the robot’s linear and angular velocities to calculate new positions based on the physical laws of motion. 
 
 To understand the calculations necessary to make these updates, we will define the concept of the world frame and the body frame. The frame of reference means the axes with respect to which we are defining the positions and orientations of the particle. If the location of a particle is given in the world frame, it means the frame of reference of the global map. If it is given in the body frame, it means the frame of reference of the car, which changes depending on the movements of the car.
 
 To update the position of each particle, we used the linear and angular velocities of the odometry data to calculate the changes in location and orientation. Because the odometry data we subscribed to was given in the body frame of the car, we then used a rotation matrix to transform these changes into the world frame. Finally, we added the changes to the old location and orientation to obtain the new ones. In simulation, we also added Gaussian noise to these changes, to account for the unavoidable noisiness of the real robot’s odometry data.
 
-Due to this noise in the odometry data, whether real or simulated, using the motion model alone is not enough to perform accurate localization. The noise causes the locations of the particles to diverge over time until the particle cloud is far too large and inaccurate to be at all useful. This is demonstrated in Figure 1 below, in which the particle cloud diverges when the motion model is the only code affecting the locations of the particles. In order to combat this divergence, we used periodic sensor model updates based on exteroceptive measurements, which is explained in the next subsection.
+Due to this noise in the odometry data, whether real or simulated, using the motion model alone is not enough to perform accurate localization. The noise causes the locations of the particles to diverge over time until the particle cloud is far too large and inaccurate to be useful. This is demonstrated in Figure 1 below, in which the particle cloud diverges when the motion model is the only code affecting the locations of the particles. In order to combat this divergence, we used periodic sensor model updates based on exteroceptive measurements, which is explained in the next subsection.
 
 <iframe src="https://drive.google.com/file/d/17MmxgFGmrDhao2rxZ3w01SXUjSMscv8a/preview" width="640" height="480"></iframe>
 
@@ -56,7 +56,7 @@ Doing the math to compute this probability for every particle every time we call
 ***2a*** *shows the probability distribution in space of measured lidar distances vs. hypothetical lidar distances, before any processing, which has a very exaggerated peak when both distances approach zero.*
 ***2b*** *shows how we made this peak less dramatic by raising all probabilities to the 1/3 power, which was helpful because it allowed more particles to have nonzero probabilities, and maintaining a larger cloud of particles ultimately made it easier to locate the robot.*
 
-Running our particle filter with only the sensor model active, as in Figure 3, clearly illustrates its functionality; the sensor model assigned probabilities to the particles by comparing exteroceptive measurements to their hypothetical lidar data, and the particle filter resampled the cloud based on these probabilities, until the cloud shrank to a narrower set of guesses for the location and orientation of the robot. This resampling process will be further explained in the next subsection.
+Running our particle filter with only the sensor model active, as in Figure 3, clearly illustrates its functionality. The sensor model assigned probabilities to the particles by comparing exteroceptive measurements to their hypothetical lidar data, and the particle filter resampled the cloud based on these probabilities, until the cloud shrank to a narrower set of guesses for the location and orientation of the robot. This resampling process will be further explained in the next subsection.
 
 <iframe src="https://drive.google.com/file/d/1EQ30qRff-om9ebdYshe1yTw2Q1MZDOVG/preview" width="640" height="480"></iframe>
 
@@ -69,7 +69,7 @@ When put together, the motion model and the sensor model formed a basis for main
 
 When odometry data was received, the particle filter would pass the changes in position and orientation to the motion model, which would then calculate the new position and orientation of each particle as described above. The particle filter would then revisualize the particles in the simulation, reflecting their new positions. In Figure 4 below, the ROS node graph shows that the particle filter subscribed to the /odom topic to receive this odometry data and published the particle cloud visualizations to the topic /particle_markers.
 
-When lidar data was received, if it had been long enough since the last time the sensor model was called, the particle filter would pass the lidar data to the sensor model. The sensor model would then compare this observed lidar data to hypothetical lidar data calculated by ray-tracing from each particle, returning weights from the precomputed probability distribution for each particle. The particle filter normalized these weights so that they all summed to 1, which allowed them to be used as a probability distribution in their own right when resampling the particle cloud. This resampling entailed picking a new cloud of particles of the same size, drawing the positions and orientations of these new particles from the old ones according to the normalized distribution of weights. Once again, the particle filter would revisualize the particles in the simulation to reflect this resampling. In Figure 4 below, the ROS node graph shows that the particle filter subscribed to the /scan topic to receive this lidar data and published the particle cloud visualizations to the topic /particle_markers.
+When lidar data was received, if it had been long enough since the last time the sensor model was called, the particle filter would pass the lidar data to the sensor model. The sensor model would then compare this observed lidar data to hypothetical lidar data calculated by ray-tracing from each particle, returning weights from the precomputed probability distribution for each particle. The particle filter normalized these weights so that they all summed to 1, which allowed them to be used as a probability distribution in their own right when resampling the particle cloud. This resampling entailed picking a new cloud of particles of the same size, and drawing the positions and orientations of these new particles from the old ones according to the normalized distribution of weights. Once again, the particle filter would revisualize the particles in the simulation to reflect this resampling. In Figure 4 below, the ROS node graph shows that the particle filter subscribed to the /scan topic to receive this lidar data and published the particle cloud visualizations to the topic /particle_markers.
 
 In addition to publishing visualizations of the particles to /particle_markers, the graph of ROS nodes in Figure 4 shows that the particle filter also published the error between the ground truth position of the car and our estimated position to /transform_error in simulation, as well as lidar scan data inferred from that estimated position to /inferred_scan in both simulation and real life. Instead of just performing a basic weighted average of all the particles to calculate this estimated position, we used a multi-modal averaging algorithm to account for the cases in which our particle cloud split into two visibly distinct subclouds at different locations on the map. In these cases, our algorithm would select the cloud containing the highest probability, and only average the particles in that cloud. In Figure 5 below, this estimated position and orientation is visualized as a transform which follows the true robot around the map, and the lidar data published from the perspective of this estimated position mostly matches the walls that are actually around the robot.
 
@@ -106,6 +106,31 @@ On top of measuring the accuracy of our localization model, we were also concern
 
 ***Figure 8 - Final Plot of Convergence Error in Simulation***
 *The final plot generated from Figure 7. Upon initializing the particles, our standard deviation starts from 1 and converges around 0.2. Our final convergence rate is about 7 seconds.*
+
+## **Experimental Evaluation Bonus: Cartographer**
+### *Mohammad Nasir
+
+The Google Cartographer is a software package used for Simultaneous Localization And Mapping (SLAM). It runs on the robot, using odometry data taken from the drive system as well as kinematic measurements from the IMU. It synthesizes this information with readings from the LIDAR to generate a map of the robot’s surroundings. As we implemented it on the robot, we found that there were a few parameters to set in the racecar_2d.lua file before it was minimally functional, as shown below:
+
+use_landmarks = false,
+publish_frame_projected_to_2d = true,
+landmarks_sampling_ratio = 1.,
+
+We used the 2D implementation of Cartographer, since our robot was equipped with the 2D Hokuyo LIDAR. We looked at the other parameters and looked through the documentation to understand what each of them do. Without changing any of them, we got fairly reasonable results as shown in the figure below:
+
+<img src="media/cartomap.png" width="600"></img>
+
+***Figure 9: Map generated by Cartographer***
+*This figure shows a map of the 6th floor of Simmons Hall that was generated without any modifications to the stock parameters.*
+
+We began at the far left side (in the image) and drove down the hall at a speed of ~0.75m/s to minimize slippage and to allow the cartographer sufficient time to process all the incoming data. The right side of the image seems to be a bit blurry, since we did multiple passes and they seem to have not aligned perfectly. A future improvement to this implementation would be to adjust the parameters to tune loop closure performance.
+
+We recorded a video of the robot driving while the cartographer generates the map of the hall, and this is shown below:
+
+<iframe src="https://drive.google.com/file/d/1Lq7entCfRCiRs9fgoMy8JKhtM0nyQYnf/preview" width="640" height="480"></iframe>
+
+***Figure 10: Video of Cartographer map generation***
+*This figure shows the robot driving through the hall as the Cartographer generates a map of the surroundings. (Video sped up 3x)*
 
 ## **Lessons Learned**
 ### *Olivia Siegel*
