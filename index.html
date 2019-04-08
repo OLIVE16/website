@@ -1,81 +1,152 @@
-<!DOCTYPE HTML><html><head><title>RSS Team 19: Racecat! </title><link rel="stylesheet" type="text/css" href="./css/style.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']],displayMath: [['$$','$$']],skipTags: ["script","noscript","style","textarea","code"]},TeX: {equationNumbers: {autoNumber: "AMS"}}});</script><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script></head><body><div id="main"><div id="logo"><div id="logo_text"><h1><a href="."><span class="logo_colour">RSS Team 19: Racecat!</span></a></h1><h2>MIT Spring 2019</h2></div></div><div id="header"><div id="menubar"><ul id="menu"><li class="selected"><a href=".">Home</a></li><li class=""><a href="./labs">Labs</a></li><li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Video</a></li><li><a href="https://github.mit.edu/rss2019-19">Github</a></li></ul></div></div><div id="site_content"><div id="content"><h1>RSS Website Template</h1>
-<p>This is a basic template for you to use for your team website.</p>
-<h2>Modifying the template</h2>
-<p>You can change the template design as much as you want - in fact we want you to!
-This website is pretty boring right now. Use pictures, videos, gifs and stories from your racecar experience
-to make this website pop!</p>
-<p>There are a couple constraints however. First, your lab reports must remain accessible at these links:</p>
-<pre><code>https:://github.mit.edu/pages/rss2019-[TEAM_NUMBER]/website/labs/[LAB_NUMBER]
-</code></pre>
-<p><br>
-Also for the sake of the graders, please make sure that the text remains <strong>black on white</strong>.</p>
-<p>And finally don't add too much javascript/bloat.
-We're going to need to go through a whole bunch of these websites rapidly
-and we don't want it to feel like learning modules.</p>
-<h2>Setting up the template</h2>
-<p>You will be hosting this template using <a href="https://pages.github.com/">github pages</a>.
-If you haven't already done so, have your team make an organization on <a href="github.mit.edu">github.mit.edu</a>.
-Make sure your organization is named <code>rss2019-#</code> where "#" is your team number (not your car number!). Do not pad the number with zeros.</p>
-<p>Then fork this repo into your organization.
-In the settings page of the forked repo scroll down to the "Github Pages" section. Under "Source", click the dropdown menu and select "master branch" then hit save.
-You should now be able to see the template if you navigate to:</p>
-<pre><code>https://github.mit.edu/pages/rss2019-[TEAM_NUMBER]/website/
-</code></pre>
-<p><br>
-Now in order to modify the template, clone your fork and read on to the next section.</p>
-<h2>Using the template</h2>
-<p>We've made this template as straightforward as we could to use.
-You can edit this using markdown which is the same language the lab reports are written in.
-It is very simple and there are plenty of guides online about how to use it.</p>
-<p>We've written a small python script that takes your markdown files (named <code>README.md</code>) and turns the into HTML files (named <code>index.html</code>) for the web.
-Each markdown file is contained in its own directory and after it is turned into HTML you will be able to view that page at:</p>
-<pre><code>https://github.mit.edu/pages/rss2019-[TEAM_NUMBER]/website/my/directory
-</code></pre>
-<p><br>
-Running the python script requires a small library for converting markdown, so first run:</p>
-<pre><code>sudo apt-get install python3-pip
-sudo pip3 install mistune
-</code></pre>
-<p><br>
-Then, if for example you wanted to edit your lab 3 report you would do the following:</p>
-<pre><code># Edit lab 3
-vim website/labs/3/README.md
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>team nineteen</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="team nineteen">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-# Run the python script to convert to HTML
-./make.py
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+</head>
+<body>
 
-# Stage, commit and push your changes
-git add website/labs/3/README.md website/labs/3/index.html
-git commit -m "Edited lab 3"
-git push origin master
-</code></pre>
-<p><br>
-<strong>Note that any edits you make to <code>index.html</code> files will be overwritten whenever you run <code>make.py</code></strong>.
-Edit the <code>README.md</code> files if you want to edit text. Edit the <code>make.py</code> file if you want to edit the generated HTML code.</p>
-<p>Edit the variable <code>TEAM_NUMBER</code> in the <code>make.py</code> file to edit the displayed team number in the header - this will also make it so the Github link points to the correct page. Also edit the <code>VIDEO_LINK</code> variable to change where the Video tab links to.</p>
-<p>The template also supports $\LaTeX$ via mathjax! For inline math use single dollar signs  and for multiline math use use double dollar signs like this:</p>
-<p>$$
-\begin{align}
-  e^{i\pi} + 1 = 0
-\end{align}
-$$</p>
-<h3>Some other markdown features</h3>
-<table>
-<thead><tr>
-<th>This</th>
-<th>is</th>
-<th>a</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>table</td>
-<td>of</td>
-<td>words</td>
-</tr>
-</tbody>
-</table>
-<blockquote><p>This is quote with <strong>bold</strong> and <em>italics</em>.</p>
-</blockquote>
-<p><strong>This is actually just HTML in the markdown file</strong></p>
-<div class="youtube-container"><iframe allowFullScreen="allowFullScreen" frameBorder="0" src="https://www.youtube.com/embed/9fzzp6oxid4"></iframe></div></div></div></div></body></html>
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <header class="header">
+            <div class="header_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="header_content d-flex flex-row align-items-center justify-content-start">
+                                <div class="logo"><a href="#">team nineteen</a></div>
+                                <nav class="main_nav">
+                                    <ul>
+                                        <li><a href="#">Home</a></li>
+                                        <li class="hassubs">
+                                            <a href="labs/index.html">Labs</a>
+                                            <ul>
+                                                <li><a href="labs/3/index.html">Lab 3</a></li>
+                                                <li><a href="labs/4/index.html">Lab 4</a></li>
+                                                <li><a href="labs/5/index.html">Lab 5</a></li>
+                                                <li><a href="labs/6/index.html">Lab 6</a></li>
+                                                <li><a href="labs/final/index.html">Final Challenge</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="labs/team/index.html">Team</a></li>
+                                        <li><a href="labs/pictures/index.html">Pictures</a></li>
+                                        <li><a href="#">Final Video</a></li>
+                                        <li><a href="https://github.mit.edu/rss2019-19">GitHub</a></li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Menu -->
+
+        <div class="menu menu_mm trans_300">
+            <div class="menu_container menu_mm">
+                <div class="page_menu_content">
+
+                    <ul class="page_menu_nav menu_mm">
+                        <li class="page_menu_item has-children menu_mm">
+                            <a href="index.html">Home<i class="fa fa-angle-down"></i></a>
+                            <ul class="page_menu_selection menu_mm">
+                                <li class="page_menu_item menu_mm"><a href="#">Team<i class="fa fa-angle-down"></i></a></li>
+                                <li class="page_menu_item menu_mm"><a href="https://github.mit.edu/rss2019-19">GitHub<i class="fa fa-angle-down"></i></a></li>
+                            </ul>
+                        </li>
+                        <li class="page_menu_item has-children menu_mm">
+                            <a href="labs/index.html">Labs<i class="fa fa-angle-down"></i></a>
+                            <ul class="page_menu_selection menu_mm">
+                                <li class="page_menu_item menu_mm"><a href="labs/3/index.html">Lab 3<i class="fa fa-angle-down"></i></a></li>
+                                <li class="page_menu_item menu_mm"><a href="labs/4/index.html">Lab 4<i class="fa fa-angle-down"></i></a></li>
+                                <li class="page_menu_item menu_mm"><a href="labs/5/index.html">Lab 5<i class="fa fa-angle-down"></i></a></li>
+                                <li class="page_menu_item menu_mm"><a href="labs/6/index.html">Lab 6<i class="fa fa-angle-down"></i></a></li>
+                                <li class="page_menu_item menu_mm"><a href="labs/final/index.html">Final Challenge<i class="fa fa-angle-down"></i></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+        </div>
+
+        <!-- Home -->
+
+        <div class="home">
+            <div class="home_slider_container">
+
+
+                <div class="home_slider_background" style="background-image:url(images/home.jpg)"></div>
+                <div class="home_slider_content_container">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="home_slider_content">
+                                    <div class="home_slider_title">MIT Robotics Science & Systems</div>
+                                    <div class="home_slider_subtitle">6.141/16.405 Spring 2019</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- Footer -->
+
+        <div class="footer_overlay"></div>
+        <footer class="footer">
+            <div class="footer_background" style="background-color: #ACACAC"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="footer_content d-flex flex-lg-row flex-column align-items-center justify-content-lg-start justify-content-center">
+                            <div class="footer_logo"><a href="#">team nineteen</a></div>
+                            <div class="copyright ml-auto mr-auto">
+
+                                 Website made with <i class="fa fa-heart-o" aria-hidden="true"></i> by mnasir
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="styles/bootstrap4/popper.js"></script>
+    <script src="styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="plugins/greensock/TweenMax.min.js"></script>
+    <script src="plugins/greensock/TimelineMax.min.js"></script>
+    <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="plugins/greensock/animation.gsap.min.js"></script>
+    <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+</html>
