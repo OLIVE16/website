@@ -22,7 +22,7 @@ To update the position of each particle, we used the linear and angular velociti
 
 Due to this noise in the odometry data, whether real or simulated, using the motion model alone is not enough to perform accurate localization. The noise causes the locations of the particles to diverge over time until the particle cloud is far too large and inaccurate to be at all useful. This is demonstrated in Figure 1 below, in which the particle cloud diverges when the motion model is the only code affecting the locations of the particles. In order to combat this divergence, we used periodic sensor model updates based on exteroceptive measurements, which is explained in the next subsection.
 
-<iframe src="https://drive.google.com/file/d/17MmxgFGmrDhao2rxZ3w01SXUjSMscv8a/preview>" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/17MmxgFGmrDhao2rxZ3w01SXUjSMscv8a/preview" width="640" height="480"></iframe>
 
 ***Figure 1 - Particle Cloud Divergence Based on Only Motion Model***
 *This video shows the particle filter running with only the motion model turned on, which results in the particle cloud diverging quickly from the actual position of the robot.*
