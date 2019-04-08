@@ -5,6 +5,14 @@ You can find slides to this report [here](https://docs.google.com/presentation/d
 ## **Overview and Motivations**
 ### *Mohammed Nasir*
 
+As we worked through past labs, we learned how to use sensors to follow a wall, detect objects in the world, as well as command steering based on our collected sensor data. This lab involved bringing it all together to locate ourselves in the world. However, there is no easy way to find our absolute position, we must rely on our position relative to other objects, which we can then use to infer our position relative to the Earth.
+
+A real-world analogy of this is a person walking in a desert while blindfolded. They only know their initial position, but they are primarily relying on their steps to mentally infer their position at any later given time. In this lab, we did just that: we incorporated “steps” to give us a rough estimate of our position, given our initial position. However, this is not perfect, since the position estimate will drift over time. In the desert analogy, the miniscule slippage under the person’s foot at every step introduces a little bit of error between the estimated and actual positions, which accumulates over multiple steps. Therefore, we need to use sensors to correct our estimate from time to time.
+
+Human eyesight is an extremely complex and elaborate way of sensing the world compared to modern machine vision technology. However, for the purposes of this lab, we will be using LIDAR to sense our environment. A real-world analogy for this scenario would be a room with an uneven sand floor and a wall layout that is known to the person. Essentially, they can use their hands to touch the wall and “feel” their way around the room, in addition to using their steps to estimate position when the wall is out of reach. In our lab implementation, we had our robot use the LIDAR scan data to sense the distances to the nearby walls, and used our knowledge of the map to estimate our location.
+
+As technology progresses towards a more automated future, it becomes increasingly important for machines to know where they are in relation to the world. ‘Self-driving vehicles’ is the canonical example: the benefit the technology brings (quite literally) depends on how well it can locate itself in the world. With other vehicles, pedestrians, and obstacles on the road, there is very little room for error with localization, and this lab brings us closer to achieving that.
+
 ## **Proposed Approach**
 ### *Tanya Smith*
 
