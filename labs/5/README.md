@@ -42,9 +42,7 @@ We used the weights 0.74, 0.07, 0.07, and 0.12, respectively, when summing these
 
 Doing the math to compute this probability for every particle every time we called our sensor model would have made our code too slow, so we chose to precompute a probability distribution for a select grid of measured lidar measurements and hypothetical measurements, shown in Figure 2 below. This way, when we needed to assign a probability to a particle, we could simply look it up in the precomputed distribution, which was much faster.
 
-<img src="media/with_squishing.png" width="600"></img>
-
-<img src="media/without_squishing.png" width="600"></img>
+<img src="media/squish.PNG" width="600"></img>
 
 ***Figure 2 - Precomputed Probability Distribution for Sensor Model***
 ***2a*** *shows the probability distribution in space of measured lidar distances vs. hypothetical lidar distances, before any processing, which has a very exaggerated peak when both distances approach zero.*
