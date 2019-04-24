@@ -15,7 +15,7 @@ There are many different path planning algorithms that can be used to generate t
 As a precomputation for our path planning algorithms, we dilated the occupancy grid map so that we could treat the car as a point moving through the two-dimensional map space. More details on our choice of map dilation are provided in the Experimental Evaluation section below.
 
 __**Technical Approach: Search-based Algorithm**__
-##### *Olivia Siegel*
+*Olivia Siegel*
 
 For a search-based path planning algorithm, we implemented A-star, which is similar to the traditional Breadth-First Search (BFS) shortest-path algorithm, but includes a heuristic to speed the growth of the search tree towards a known goal. The nodes in our search tree were defined to be cells in our discretized two-dimensional occupancy grid representing our map.
 
@@ -34,7 +34,7 @@ For our heuristic, we used Euclidean distance of a cell to the cell containing t
 *Our A-star algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.*
 
 __**Technical Approach: Sample-based Algorithm**__
-##### *Tanya Smith*
+*Tanya Smith*
 
 In addition to the search-based algorithm outlined above, we chose to implement the sample-based Rapidly-exploring Random Tree (RRT) algorithm. As shown in Figure 3 below, at each step of the algorithm, a new point was randomly selected from a uniform distribution of all permissible cells in the discretized two-dimensional map. Then, in order to connect the new point to our random tree, we looked at all existing nodes in the tree within a circle centered at the candidate point of some fixed radius (details for selecting this radius parameter are justified in the Experimental Evaluation section below). Out of all nodes within the circle, we picked one to be the candidate point’s parent in the tree based on optimal total path length starting from the start node all the way to the candidate point. In addition, we only considered parent nodes for which the line segment between parent and candidate would not collide with a wall or other obstacle; if all parent nodes would introduce a collision then the candidate was not added to the tree at all and the algorithm moved on to the next random selection.
 
@@ -51,7 +51,7 @@ As shown in Figure 4 below, this method produced fairly jagged trajectories beca
 *Our RRT algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.*
 
 __**Technical Approach: Pure Pursuit Controller**__
-##### *Mohammed Nasir*
+*Mohammed Nasir*
 
 The pure pursuit controller would control steering and speed of the car to follow a trajectory given to it by the path planning module. It did this by taking in an ordered list of points that define the trajectory in the world frame, transforming the points into the car frame, and steering the car towards each point in sequence. The controller would have one significant parameter: the lookahead distance. This distance was used when selecting the point on the trajectory to pursue. All the points closer than the lookahead distance were ignored, and the process repeated. Figure 5 below shows the process flow of the standard pure pursuit controller.
 
@@ -87,7 +87,7 @@ The pursuit module and the anticipatory lookahead were originally intended to fu
 *This figure shows the logical flow in the second iteration of the Pure Pursuit Controller, this time with anticipatory lookahead.*
 
 __**Technical Approach: ROS Implementation**__
-##### *Tanya Smith*
+*Tanya Smith*
 
 We implemented our path planning algorithms as nodes publishing trajectories between waypoints. Our pure pursuit controller subscribed to both these trajectories and the localization data given by the particle filter from the staff solution for Lab 5 in order to publish drive commands for the robot. The interaction of these publishers and subscribers is shown below in the node graph in Figure 10. Demonstrations of the path planning and trajectory following working together in simulation and real life are shown in Figures 11a and 11b, respectively.
 
@@ -98,6 +98,7 @@ We implemented our path planning algorithms as nodes publishing trajectories bet
 
 ***11a***
 <iframe src="" width="640" height="480"></iframe>
+
 ***11b***
 <iframe src="" width="640" height="480"></iframe>
 
@@ -161,7 +162,7 @@ With this map dilation method, we needed to decide how high to set our dilation 
 *The results of the success rates of trajectory planning given a specific dilation radius for the map. If the path went through the narrow hallway it was considered a success, but if it took the long way around the map then the dilation was set too high. A dilation radius of 13 is the highest radius that results in a success rate of 100%.*
 
 __**Evaluation of Pure Pursuit Controller**__
-##### *Mohammed Nasir*
+*Mohammed Nasir*
 
 <img src="media/figure19.png" width="600"></img>
 

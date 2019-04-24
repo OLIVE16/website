@@ -7,8 +7,8 @@
 <h2><strong>Proposed Approach</strong></h2>
 <h3><em>Tanya Smith</em></h3>
 <p>As a precomputation for our path planning algorithms, we dilated the occupancy grid map so that we could treat the car as a point moving through the two-dimensional map space. More details on our choice of map dilation are provided in the Experimental Evaluation section below.</p>
-<p><strong><strong>Technical Approach: Search-based Algorithm</strong></strong></p>
-<h5><em>Olivia Siegel</em></h5>
+<p><strong><strong>Technical Approach: Search-based Algorithm</strong></strong>
+<em>Olivia Siegel</em></p>
 <p>For a search-based path planning algorithm, we implemented A-star, which is similar to the traditional Breadth-First Search (BFS) shortest-path algorithm, but includes a heuristic to speed the growth of the search tree towards a known goal. The nodes in our search tree were defined to be cells in our discretized two-dimensional occupancy grid representing our map.</p>
 <p>Our variation of A-star worked by keeping a set of open nodes, meaning that they had been visited but their successors had not yet been explored, and a set of closed nodes, meaning that they had been visited and their successors had been fully explored. The successors of a node were defined as the eight nodes surrounding it to the north, east, west, south, north-east, north-west, south-east, and south-west. We parameterized our algorithm with a variable step size, such that our map was actually discretized into blocks of multiple pixels. For example, a step size of 10 would mean that the successors of a node are the four corners of a 19 x 19 square surrounding it, as well as 10 cells to the north, south, east, and west of it. Details for how we justified our selection of step size are given in the Experimental Evaluation selection below.</p>
 <p>For our heuristic, we used Euclidean distance of a cell to the cell containing the goal point. A-star keeps track of a cost function from the start node to the current node being explored based on how many steps it took to get from the start to that node. Summed with the heuristic function at the current node, this represented a kind of weight in our graph that made more direct paths to the goal more favorable, or shorter, in terms of total cost. At each iteration of the A-star algorithm, we chose the node with the lowest cost from the set of open nodes to explore its successors next. The total cost of a node was updated if we reassigned its parent in our search tree. Figure 1 below shows the expansion of our search tree with a step size of 10 cells. Figure 2 shows the same algorithm running without the visualization of the intermediate search tree, to generate trajectories between waypoints creating a loop around the Stata building basement.</p>
@@ -16,16 +16,16 @@
 <em>Our A-star algorithm finds a trajectory between two clicked points on the map, showing the intermediate tree at each iteration. The step size for tree growth is 10 cells. The flashing effect is created by slowing down the video to better show how the tree expands towards the goal. Actual time data for the algorithm is presented in the Experimental Evaluation section below.</em></p>
 <iframe src="" width="640" height="480"></iframe><p><strong><em>Figure 2 - A-star Path Planning for Entire Closed Loop</em></strong>
 <em>Our A-star algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.</em></p>
-<p><strong><strong>Technical Approach: Sample-based Algorithm</strong></strong></p>
-<h5><em>Tanya Smith</em></h5>
+<p><strong><strong>Technical Approach: Sample-based Algorithm</strong></strong>
+<em>Tanya Smith</em></p>
 <p>In addition to the search-based algorithm outlined above, we chose to implement the sample-based Rapidly-exploring Random Tree (RRT) algorithm. As shown in Figure 3 below, at each step of the algorithm, a new point was randomly selected from a uniform distribution of all permissible cells in the discretized two-dimensional map. Then, in order to connect the new point to our random tree, we looked at all existing nodes in the tree within a circle centered at the candidate point of some fixed radius (details for selecting this radius parameter are justified in the Experimental Evaluation section below). Out of all nodes within the circle, we picked one to be the candidate point’s parent in the tree based on optimal total path length starting from the start node all the way to the candidate point. In addition, we only considered parent nodes for which the line segment between parent and candidate would not collide with a wall or other obstacle; if all parent nodes would introduce a collision then the candidate was not added to the tree at all and the algorithm moved on to the next random selection.</p>
 <p>As shown in Figure 4 below, this method produced fairly jagged trajectories because our candidate-addition protocol did not include a rewiring step outlined in some variations of the RRT algorithm. Were we to implement this optimization of our variant, we would also look at each node in the circle of fixed radius and consider if our candidate node would make a better parent for it than its current one, in terms of total path length from the start node.</p>
 <iframe src="" width="640" height="480"></iframe><p><strong><em>Figure 3 - RRT Tree Expansion</em></strong>
 <em>Our RRT algorithm finds a trajectory between two clicked points on the map, showing the intermediate random tree at each iteration. The video is sped up to mitigate the fact that the intermediate visualization slowed down the trajectory generation. Actual time data for the algorithm is presented in the Experimental Evaluation section below.</em></p>
 <iframe src="" width="640" height="480"></iframe><p><strong><em>Figure 4 - RRT Path Planning for Entire Closed Loop</em></strong>
 <em>Our RRT algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.</em></p>
-<p><strong><strong>Technical Approach: Pure Pursuit Controller</strong></strong></p>
-<h5><em>Mohammed Nasir</em></h5>
+<p><strong><strong>Technical Approach: Pure Pursuit Controller</strong></strong>
+<em>Mohammed Nasir</em></p>
 <p>The pure pursuit controller would control steering and speed of the car to follow a trajectory given to it by the path planning module. It did this by taking in an ordered list of points that define the trajectory in the world frame, transforming the points into the car frame, and steering the car towards each point in sequence. The controller would have one significant parameter: the lookahead distance. This distance was used when selecting the point on the trajectory to pursue. All the points closer than the lookahead distance were ignored, and the process repeated. Figure 5 below shows the process flow of the standard pure pursuit controller.</p>
 <p><img src="media/figure5.png" width="600"></img></p>
 <p><strong><em>Figure 5 - Pure Pursuit Controller Process Flow</em></strong>
@@ -45,15 +45,14 @@
 <p><img src="media/figure9.png" width="600"></img></p>
 <p><strong><em>Figure 9 - Anticipatory Lookahead Pure Pursuit Controller Process Flow</em></strong>
 <em>This figure shows the logical flow in the second iteration of the Pure Pursuit Controller, this time with anticipatory lookahead.</em></p>
-<p><strong><strong>Technical Approach: ROS Implementation</strong></strong></p>
-<h5><em>Tanya Smith</em></h5>
+<p><strong><strong>Technical Approach: ROS Implementation</strong></strong>
+<em>Tanya Smith</em></p>
 <p>We implemented our path planning algorithms as nodes publishing trajectories between waypoints. Our pure pursuit controller subscribed to both these trajectories and the localization data given by the particle filter from the staff solution for Lab 5 in order to publish drive commands for the robot. The interaction of these publishers and subscribers is shown below in the node graph in Figure 10. Demonstrations of the path planning and trajectory following working together in simulation and real life are shown in Figures 11a and 11b, respectively.</p>
 <p><img src="media/figure10.png" width="600"></img></p>
 <p><strong><em>Figure 10 - Graph of Nodes and Topics for ROS Implementation</em></strong>
 <em>The organization of ROS publishers and subscribers for path planning, localization, and trajectory following is shown by this graph of nodes and topics.</em></p>
 <p><strong><em>11a</em></strong></p>
-<iframe src="" width="640" height="480"></iframe>
-***11b***
+<iframe src="" width="640" height="480"></iframe><p><strong><em>11b</em></strong></p>
 <iframe src="" width="640" height="480"></iframe><p><strong><em>Figure 11 - Path Planning and Trajectory Tracking on the Racecar</em></strong>
 <em>11a shows the simulated racecar planning and following a trajectory around the Stata basement loop. 11b shows the real racecar doing the same.</em></p>
 <h2><strong>Experimental Evaluation</strong></h2>
@@ -88,8 +87,8 @@
 <p><img src="media/figure18.png" width="600"></img></p>
 <p><strong><em>Figure 18 - Results of Effect of Map Dilation on Efficiency</em></strong>
 <em>The results of the success rates of trajectory planning given a specific dilation radius for the map. If the path went through the narrow hallway it was considered a success, but if it took the long way around the map then the dilation was set too high. A dilation radius of 13 is the highest radius that results in a success rate of 100%.</em></p>
-<p><strong><strong>Evaluation of Pure Pursuit Controller</strong></strong></p>
-<h5><em>Mohammed Nasir</em></h5>
+<p><strong><strong>Evaluation of Pure Pursuit Controller</strong></strong>
+<em>Mohammed Nasir</em></p>
 <p><img src="media/figure19.png" width="600"></img></p>
 <p><strong><em>Figure 19 - Plot of Distance to Point vs. Time</em></strong>
 <em>This figure shows the tracking of the path by the controller and the variations in lookahead distance from changes in speed.</em></p>
