@@ -28,7 +28,7 @@ For our heuristic, we used Euclidean distance of a cell to the cell containing t
 ***Figure 1 - A-star Tree Expansion with Euclidean Distance Heuristic***
 *Our A-star algorithm finds a trajectory between two clicked points on the map, showing the intermediate tree at each iteration. The step size for tree growth is 10 cells. The flashing effect is created by slowing down the video to better show how the tree expands towards the goal. Actual time data for the algorithm is presented in the Experimental Evaluation section below.*
 
-<<iframe src="https://drive.google.com/file/d/15iZ0c1wPL1_kSGsYPQkXklJJCsUU3hMq/preview" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/15iZ0c1wPL1_kSGsYPQkXklJJCsUU3hMq/preview" width="640" height="480"></iframe>
 
 ***Figure 2 - A-star Path Planning for Entire Closed Loop***
 *Our A-star algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.*
@@ -89,21 +89,20 @@ The pursuit module and the anticipatory lookahead were originally intended to fu
 #####__**Technical Approach: ROS Implementation**__
 ######*Tanya Smith*
 
-We implemented our path planning algorithms as nodes publishing trajectories between waypoints. Our pure pursuit controller subscribed to both these trajectories and the localization data given by the particle filter from the staff solution for Lab 5 in order to publish drive commands for the robot. The interaction of these publishers and subscribers is shown below in the node graph in Figure 10. Demonstrations of the path planning and trajectory following working together in simulation and real life are shown in Figures 11a and 11b, respectively.
+We implemented our path planning algorithms as nodes publishing trajectories between waypoints. Our pure pursuit controller subscribed to both these trajectories and the localization data given by the particle filter from the staff solution for Lab 5 in order to publish drive commands for the robot. The interaction of these publishers and subscribers is shown below in the node graph in Figure 10. Demonstrations of the path planning and trajectory following working together in simulation and real life are shown in Figure 11 below.
 
 <img src="media/figure10.png" width="600"></img>
 
 ***Figure 10 - Graph of Nodes and Topics for ROS Implementation***
 *The organization of ROS publishers and subscribers for path planning, localization, and trajectory following is shown by this graph of nodes and topics.*
 
-***11a***
+
 <iframe src="https://drive.google.com/file/d/19iqWuHVJ0Ik4cf2kCjjanc7TsXZ0mVLb/preview" width="640" height="480"></iframe>
 
-***11b***
-<<iframe src="https://drive.google.com/file/d/1bh8LZbbLCR2OnO8P4FVU5XXgPir8t6bL/preview" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/1bh8LZbbLCR2OnO8P4FVU5XXgPir8t6bL/preview" width="640" height="480"></iframe>
 
 ***Figure 11 - Path Planning and Trajectory Tracking on the Racecar***
-*11a shows the simulated racecar planning and following a trajectory around the Stata basement loop. 11b shows the real racecar doing the same.*
+*The top video shows the simulated racecar planning and following a trajectory around the Stata basement loop. The bottom video shows the real racecar doing the same.*
 
 ## **Experimental Evaluation**
 ### *Jordan Gamble*
