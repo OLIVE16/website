@@ -23,12 +23,12 @@ Our variation of A-star worked by keeping a set of open nodes, meaning that they
 
 For our heuristic, we used Euclidean distance of a cell to the cell containing the goal point. A-star keeps track of a cost function from the start node to the current node being explored based on how many steps it took to get from the start to that node. Summed with the heuristic function at the current node, this represented a kind of weight in our graph that made more direct paths to the goal more favorable, or shorter, in terms of total cost. At each iteration of the A-star algorithm, we chose the node with the lowest cost from the set of open nodes to explore its successors next. The total cost of a node was updated if we reassigned its parent in our search tree. Figure 1 below shows the expansion of our search tree with a step size of 10 cells. Figure 2 shows the same algorithm running without the visualization of the intermediate search tree, to generate trajectories between waypoints creating a loop around the Stata building basement.
 
-<iframe src="" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/1XZ2DP120_yFo6vMoOYICJgcXmdfNgzjP/preview" width="640" height="480"></iframe>
 
 ***Figure 1 - A-star Tree Expansion with Euclidean Distance Heuristic***
 *Our A-star algorithm finds a trajectory between two clicked points on the map, showing the intermediate tree at each iteration. The step size for tree growth is 10 cells. The flashing effect is created by slowing down the video to better show how the tree expands towards the goal. Actual time data for the algorithm is presented in the Experimental Evaluation section below.*
 
-<iframe src="" width="640" height="480"></iframe>
+<<iframe src="https://drive.google.com/file/d/15iZ0c1wPL1_kSGsYPQkXklJJCsUU3hMq/preview" width="640" height="480"></iframe>
 
 ***Figure 2 - A-star Path Planning for Entire Closed Loop***
 *Our A-star algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.*
@@ -40,12 +40,12 @@ In addition to the search-based algorithm outlined above, we chose to implement 
 
 As shown in Figure 4 below, this method produced fairly jagged trajectories because our candidate-addition protocol did not include a rewiring step outlined in some variations of the RRT algorithm. Were we to implement this optimization of our variant, we would also look at each node in the circle of fixed radius and consider if our candidate node would make a better parent for it than its current one, in terms of total path length from the start node.
 
-<iframe src="" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/1O1-VQmxWTrY2sKECQYCRW7mffhiPzxD1/preview" width="640" height="480"></iframe>
 
 ***Figure 3 - RRT Tree Expansion***
 *Our RRT algorithm finds a trajectory between two clicked points on the map, showing the intermediate random tree at each iteration. The video is sped up to mitigate the fact that the intermediate visualization slowed down the trajectory generation. Actual time data for the algorithm is presented in the Experimental Evaluation section below.*
 
-<iframe src="" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/1-x8UD_P1FOdfiv7rWb_BDliSq3j4u6jQ/preview" width="640" height="480"></iframe>
 
 ***Figure 4 - RRT Path Planning for Entire Closed Loop***
 *Our RRT algorithm finds trajectories between waypoints to create a loop trajectory around the basement of the Stata building.*
@@ -97,10 +97,10 @@ We implemented our path planning algorithms as nodes publishing trajectories bet
 *The organization of ROS publishers and subscribers for path planning, localization, and trajectory following is shown by this graph of nodes and topics.*
 
 ***11a***
-<iframe src="" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/19iqWuHVJ0Ik4cf2kCjjanc7TsXZ0mVLb/preview" width="640" height="480"></iframe>
 
 ***11b***
-<iframe src="" width="640" height="480"></iframe>
+<<iframe src="https://drive.google.com/file/d/1bh8LZbbLCR2OnO8P4FVU5XXgPir8t6bL/preview" width="640" height="480"></iframe>
 
 ***Figure 11 - Path Planning and Trajectory Tracking on the Racecar***
 *11a shows the simulated racecar planning and following a trajectory around the Stata basement loop. 11b shows the real racecar doing the same.*
