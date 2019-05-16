@@ -113,6 +113,7 @@
             <div style="width: 85%; padding: 20px; margin: auto;">
                 <p>Slides for this lab are also accessible <a href="https://drive.google.com/open?id=1kieycNzAH1OnR04PcUReGHFV1kBajHFnhcm2qmBWEOQ">here</a>.</p>
                 <h2><strong>Description of Problem: Fast Obstacle Avoidance</strong></h2>
+                <h3><em>Olivia Siegel</em></h3>
                 <p>It&rsquo;s one thing for a robot to autonomously navigate an open hallway, but it&rsquo;s another to detect and avoid unknown obstacles in its path. In this challenge we were tasked with avoiding obstacles in the path of our robot that were not shown in the known map of the Stata basement. In order to complete this challenge, it was necessary to adapt components from previous labs, including the particle filter localization from Lab 5, as well as the A* path planner and pure pursuit controller from Lab 6.</p>
                 <p>A constraint of this challenge was to navigate the obstacle course without sacrificing speed. Some properties that we could count on were that the obstacles would be stationary, there would be no dead ends or concave obstacles, and they wouldn&rsquo;t obscure more than 50% of the hallway width. </p>
                 <p>The grading for this challenge was based on the accuracy of nativagation as well as the severity of collisions if they occur. Additional points were given for navigating the obstacle course at higher speeds. There were also points given for demonstrating robustness to obstacle changes. </p>
@@ -120,6 +121,7 @@
 
                 <h2><strong>Technical Approach</strong></h2>
                 <h5><strong><strong>Mapping and Path Planning</strong></strong></h5>
+                <h6><em>Tanya Smith</em></h6>
                 <p>One of the most important challenges in implementing fast obstacle avoidance was maintaining an accurate map with which to localize, as well as one with which to plan paths. We chose to maintain two different representations of this map, each representing the same Stata basement, but each optimized to the needs of the two purposes. We also had to consider when to dilate these maps and when to leave them undilated, the rationale for which will be discussed below.</p>
                 <p>For localization, we used the original stata basement map, undilated and free of obstacles. This map needed to be undilated because dilation alters the ground truth of objects on the map in order to be able to treat the car as a point mass when it traverses the occupancy grid. In the case of localization, we needed to maintain the ground truth of the walls around the car so that it could accurately pinpoint its location on the map. We also did not want to add obstacles to the map used by the particle filter, because we did not want to compound any error in detecting and drawing these obstacles, which would quickly make our map unusable for localizing the car. Because we were using the previously implemented particle filter for localization, we had to optimize the sensor model for the obstacle course environment. To account for the presence of these unmapped obstacles, we tuned the parameters of the particle filter to expect short lidar scans and random lidar measurements at a higher probability, thus effectively telling the particle filter to ignore small disturbances in the hallway and prioritize using further obstacles, like the hallway walls, to orient itself.</p>
                 <p>For path planning, we chose to keep an internal representation of the map (published only for visualization purposes), that was dilated and continually updated with new obstacles based on incoming lidar scan information. This map needed to be dilated because it planned paths assuming the car was a point mass, so obstacles were inflated to create a configuration space in which the point mass could move freely without implying collisions of the physical car as a rigid body. In order to update the map used for planning paths, we used incoming lidar scans to calculate the indices of cells in an occupancy grid that should be marked as nonpermissible. This was done by using the distance and angle of each lidar scan to calculate the changes in the x and y directions and applying a rotation matrix to transform these changes into the world frame. In addition to each detected obstacle cell, all of the cells in a surrounding square with side lengths based on the width of the car were also marked as occupied, effectively providing real time dilation. </p>
@@ -139,13 +141,14 @@
                 </p>
 
                 <h5><strong><strong>Pure Pursuit Trajectory Following</strong></strong></h5>
+                <h6><em>Mohammed Nasir</em></h6>
                 <p>Once we have computed a trajectory around the visible objects, we must issue drive commands to the vehicle to follow the path. We used the pure pursuit controller that was implemented in previous labs, but a few changes were necessary to adapt it for this challenge.</p>
                 <p>The most important requirement was for the vehicle to be more agile, leaving less room for divergence from the trajectory. In past labs, the ‘pursuit’ subsystem of the pure pursuit controller would just naively set the steering angle to the relative position of the point in the car’s frame. Essentially, we relied on the fact that there can be as many as a hundred timesteps before the vehicle reaches the point, and that the steering will straighten itself out as it approaches the pursued point. However, this fails at higher speeds, since the sharp changes in steering angle when switching points causes the car to drift and not maintain its path.</p>
                 <p>To mitigate this, we implemented a steering angle function that uses the Ackermann steering equations, computing a turn radius to reach the point, and steering along that turning circle. The individual timesteps would then be used for infinitesimally correcting that calculated turning circle. In addition, the controller was modified to ignore points on the trajectory that were inside of the tightest turning circle of the car, so that it does not end up ‘orbiting’ the point without reaching it.</p>
                 <p>Since the points were unevenly spaced and given as a discrete set of points, choosing the point closest to the lookahead distance was another challenge to overcome. Computing the equation of a line between two points and finding the intersection with the lookahead circle would be computationally intensive and unnecessary, considering that the points are no more than ~0.5 meters apart. Since the trajectory that’s given is a linear array of points to be followed in order, we simply compute the distance to the first point, and increment a counter if it is closer than the lookahead distance. We repeat this until we get the first point just outside the lookahead distance.</p>
                 <p>We also implemented a variable-velocity system that reduces speed around corners. We do this by looking at the segment of trajectory between the current pursued point and another point slightly further than that. Using simple geometry, we can compute our estimated pose at the current pursued point, and then compute the turn radius to the next point. With simple kinematics, we can compute the maximum velocity given the turn radius and the coefficient of friction, which we empirically determined. The controller then sets the current velocity based on that future turn radius, so that the car has adequate time to slow down before entering the curve.</p>
 
-                <p>Videos of the car avoiding obstacles at high speed is shown below:</p>
+                <p>Videos of the car avoiding obstacles at high speed are shown below in Figures 3, 4, and 5.</p>
 
                 <iframe src="https://drive.google.com/file/d/1UexFr8eHR3wSwh-YXijgex0JtwdK9YMG/preview" width="640" height="480"></iframe>
                 <p>
@@ -159,16 +162,17 @@
 
                 <iframe src="https://drive.google.com/file/d/15JsoBU6A_DGpjjU89Oq1DplBDfYFr4TL/preview" width="640" height="480"></iframe>
                 <p>
-                    <strong><em>Figure 5 - First-person view at 2 m/s</em></strong>
+                    <strong><em>Figure 5 - First-person view of complex path at 2 m/s</em></strong>
                 </p>
 
                 <h2><strong>Experimental Evaluation</strong></h2>
+                <h3><em>Jordan Gamble</em></h3>
                 <p>Due to the nature of this challenge, determining quantitative methods of evaluating our mapping and pure pursuit algorithms was difficult, especially in simulation. In order to test whether our mapping and path planning were going to work, we would need to be able to simulate a map that could update as if the robot could not see far obstacles. Alternatively, one could dynamically place markers in Rviz to simulate an obstacle coming into view. However, we decided that implementing these simulations would have been less efficient than simply testing on the robot dut to the limitations of the Rviz race car simulator. For example, in simulation the Lidar scan is determined by the map itself, whereas in real life it is determined by the environment. Even though we did not use simulations for experimental evaluation purposes, we did us them to debug our code and to make sure changes we still made a clean dilated map and did not slow down the speed of planning a trajectory (Figure 6).</p>
 
                 <img src="simulation.png" style="width: 75%"/>
                 <p>
                     <strong><em>Figure 6 - Testing Maps in Simulation</em></strong>
-                    <em>This image shows our dilated map and Lidar scan in simulation. This type of simulation was used to test whether the dilated map remained clean (similar to the map at the start) after the path planning begins. </em>
+                    <em>This image shows our dilated map and Lidar scan in simulation. This type of simulation was used to test whether the dilated map remained clean (similar to the map at the start) after the path planning began. </em>
                 </p>
 
                 <p>Even when we were testing on the robot, it was difficult for us to quantitatively analyze the accuracy of our controller given that our planned trajectory was being updated rapidly. Normally, we would take the error of the position of the robot and the trajectory it was supposed to follow, but since there was no ground truth for the robot to follow, this essentially could not be done. </p>
@@ -183,6 +187,7 @@
 
 
                 <h2><strong>Lessons Learned</strong></h2>
+                <h3><em>Olivia Siegel</em></h3>
                 <p>This final project was definitely a learning experience in terms of learning about the science and systems of robotics, but also in teamwork and time management. </p>
                 <p>Early on, the teaching assistants advised us to spend more time on the state estimator than the controller, but we took this to a bit of an extreme. We barely spent any time on the controller and basically just hacked the wide curve controller from the stata basement loop to work for the quick turns of the obstacle avoidance. This was definitely a lesson learned because the car could not handle the quick turns of the obstacle course with the dexterity that we desired. </p>
                 <p>Another part that we wish we had done differently was making the remapping more computationally efficient. It would have been better if we could have updated the map when we see obstacles with more speed without sacrificing accuracy. </p>
